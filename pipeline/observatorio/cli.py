@@ -40,7 +40,7 @@ def atualizar(con, fontes: dict = FONTES, so: str | None = None) -> int:
             return 1
 
     calcular_derivados(con)
-    erros = validar(con, fontes["ibge_municipios"].total_api())
+    erros = validar(con, fontes["ibge_municipios"].total_esperado())
     if erros:
         for erro in erros:
             log.error("validação: %s", erro)

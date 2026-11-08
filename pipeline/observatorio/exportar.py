@@ -59,18 +59,18 @@ def montar_perfis(con, catalogo: dict[str, Indicador]) -> dict[str, dict]:
     ultimos = con.execute(f"""
         with u as ({_ULTIMOS})
         select f.cod_municipio, f.indicador, f.periodo, f.valor,
-               rank() over (partition by f.indicador order by f.valor desc) as pos_brasil,
-               rank() over (partition by f.indicador, m.uf order by f.valor desc) as pos_uf
+               rank() over (partition by f.indicador order by f.valor desc) as posicao,
+               count(*) over (partition by f.indicador) as total
         from fatos f join u using (indicador, periodo) join municipios m using (cod_municipio)
         where f.recorte is null
     """).fetchall()
-    for cod, indicador, periodo, valor, pos_br, pos_uf in ultimos:
+    for cod, indicador, periodo, valor, posicao, total in ultimos:
         if indicador not in catalogo:
             continue
         ind = _ind(cod, indicador)
         ind["ultimo"] = {"periodo": periodo, "valor": _num(valor)}
         if indicador in com_ranking:
-            ind["posicao"] = {"brasil": int(pos_br), "uf": int(pos_uf)}
+            ind["posicao"] = {"posicao": int(posicao), "total": int(total)}
 
     recortes = con.execute(f"""
         with u as ({_ULTIMOS})

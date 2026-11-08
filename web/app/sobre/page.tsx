@@ -22,7 +22,9 @@ export default function PaginaSobre() {
       <section className="space-y-3">
         <h1 className="text-3xl font-semibold tracking-tight">Sobre o Observatório</h1>
         <p className="text-suave">
-          Projeto de estudo que reúne dados públicos e gratuitos sobre os municípios brasileiros. Um pipeline em
+          Projeto de estudo que reúne dados públicos e gratuitos sobre os 16 municípios do litoral do Rio Grande do Sul
+          — os municípios gaúchos defrontantes com o mar, pela lista oficial do IBGE (2024). Rankings e posições
+          comparam só esses municípios entre si. Um pipeline em
           Python baixa as fontes oficiais, organiza tudo num banco DuckDB e gera os arquivos que este site estático
           exibe. Dados gerados em {dataHora(meta.gerado_em)}.
         </p>
@@ -70,7 +72,7 @@ export default function PaginaSobre() {
           recorte, valor). Assim, uma fonte nova entra como um módulo novo no pipeline, sem mudar o site.
         </p>
         <p>
-          O “último período” de cada indicador é o mais recente disponível no país inteiro. Um município sem valor
+          O “último período” de cada indicador é o mais recente disponível entre os 16 municípios. Um município sem valor
           nesse período aparece como “sem dado no período mais recente”, mas o histórico continua no gráfico, e ele
           fica fora do ranking.
         </p>

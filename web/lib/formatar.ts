@@ -1,3 +1,5 @@
+import type { Posicao } from "./tipos";
+
 // Formatação pt-BR de valores por unidade do catálogo. Sem Intl "currency" (insere espaço especial).
 
 function decimal1(v: number): string {
@@ -43,4 +45,8 @@ export function formatarValor(valor: number | null | undefined, unidade: string)
     default:
       return `${sinal}${compacto(abs)}`;
   }
+}
+
+export function formatarPosicao(p: Posicao): string {
+  return `Nº ${p.posicao.toLocaleString("pt-BR")} de ${p.total.toLocaleString("pt-BR")} municípios`;
 }

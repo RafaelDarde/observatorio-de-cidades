@@ -32,3 +32,10 @@ def test_sigilo_descartado():
         {"D1C": "4314902", "D2C": "707", "D3C": "2024", "D4C": "116880", "D4N": "B Indústrias extrativas", "V": "X"},
     ])
     assert normalizar([], linhas) == []
+
+
+def test_consultas_so_do_recorte_numa_requisicao_por_tabela():
+    from observatorio.fontes.ibge_cempre import urls
+    u = urls()
+    assert set(u) == {"totais", "secoes"}
+    assert "/t/9509/n6/4301057%2C" in u["totais"] and "/t/9510/n6/4301057%2C" in u["secoes"]

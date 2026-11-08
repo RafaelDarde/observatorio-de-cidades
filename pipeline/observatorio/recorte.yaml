@@ -1,0 +1,22 @@
+# Municípios cobertos pelo Observatório. Para mudar a região, troque esta lista (códigos IBGE de 7 dígitos).
+nome: Litoral do RS
+descricao: >-
+  Os 16 municípios gaúchos defrontantes com o mar, segundo a lista oficial do IBGE
+  (Municípios Defrontantes com o Mar, 2024).
+municipios:
+  "4301057": Arroio do Sal
+  "4301636": Balneário Pinhal
+  "4304630": Capão da Canoa
+  "4305454": Cidreira
+  "4310330": Imbé
+  "4312500": Mostardas
+  "4313508": Osório
+  "4313656": Palmares do Sul
+  "4315602": Rio Grande
+  "4317301": Santa Vitória do Palmar
+  "4318507": São José do Norte
+  "4321352": Tavares
+  "4321436": Terra de Areia
+  "4321501": Torres
+  "4321600": Tramandaí
+  "4323804": Xangri-lá

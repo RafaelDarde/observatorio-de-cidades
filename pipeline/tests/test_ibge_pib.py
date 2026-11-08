@@ -24,4 +24,4 @@ def test_uma_requisicao_por_variavel_para_respeitar_limite_do_sidra():
     from observatorio.fontes.ibge_pib import VARIAVEIS, urls
     u = urls()
     assert set(u) == {f"pib_{v}" for v in VARIAVEIS}
-    assert u["pib_37"].endswith("/t/5938/n6/all/v/37/p/last%205")
+    assert "/t/5938/n6/4301057%2C" in u["pib_37"] and u["pib_37"].endswith("/v/37/p/last%205")

@@ -1,5 +1,5 @@
 import { GraficoBarras, GraficoLinha } from "@/components/Graficos";
-import { formatarValor } from "@/lib/formatar";
+import { formatarPosicao, formatarValor } from "@/lib/formatar";
 import type { Indicador as DadosIndicador, ItemCatalogo } from "@/lib/tipos";
 import { tipoVisualizacao } from "@/lib/visualizacao";
 
@@ -25,7 +25,7 @@ export function Cartao({ item, dados }: { item: ItemCatalogo; dados: DadosIndica
       {ultimo && <p className="text-xs text-suave">{ultimo.periodo}</p>}
       {dados?.posicao && (
         <p className="mt-2 text-xs text-destaque">
-          Nº {dados.posicao.brasil.toLocaleString("pt-BR")} no Brasil · Nº {dados.posicao.uf} na UF
+          {formatarPosicao(dados.posicao)}
         </p>
       )}
     </div>
@@ -46,7 +46,7 @@ export function Indicador({ item, dados, carregadoEm }: { item: ItemCatalogo; da
       </header>
       {dados?.posicao && (
         <p className="text-xs text-destaque">
-          Nº {dados.posicao.brasil.toLocaleString("pt-BR")} no Brasil · Nº {dados.posicao.uf} na UF
+          {formatarPosicao(dados.posicao)}
         </p>
       )}
       <div className="mt-3">

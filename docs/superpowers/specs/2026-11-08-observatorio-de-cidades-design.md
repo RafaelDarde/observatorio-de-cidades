@@ -17,7 +17,7 @@ Status: aprovado em conversa, aguardando revisão da spec escrita
 5. Custo de infraestrutura zero.
 
 **Decisões tomadas na conversa:**
-- Cobertura: Brasil inteiro. Restringir ao RS economizaria pouco, porque as fontes vêm nacionais, e empobreceria rankings e comparações.
+- Cobertura: ~~Brasil inteiro~~. **Revisado em 2026-11-08:** só o litoral do RS — os 16 municípios gaúchos defrontantes com o mar (lista oficial do IBGE, 2024), definidos em `pipeline/observatorio/recorte.yaml`. A versão nacional pesava demais (53 MB de dados, ~33 mil arquivos, build de ~7 min) e está no histórico do git (merge `4e4434d`). Rankings e posições passam a ser dentro do recorte ("Nº 3 de 16 municípios").
 - Stack: pipeline em Python/DuckDB e front em Next.js, em um repositório só.
 - Dados de empresas e emprego: IBGE CEMPRE + Novo CAGED. A base CNPJ da Receita Federal fica para a fase 2.
 - Entrega dos dados: arquivos JSON estáticos gerados pelo pipeline e servidos com o site.

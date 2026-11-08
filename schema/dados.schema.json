@@ -66,10 +66,10 @@
       "title": "Posicao",
       "type": "object",
       "additionalProperties": false,
-      "required": ["brasil", "uf"],
+      "required": ["posicao", "total"],
       "properties": {
-        "brasil": { "type": "integer", "minimum": 1 },
-        "uf": { "type": "integer", "minimum": 1 }
+        "posicao": { "type": "integer", "minimum": 1 },
+        "total": { "type": "integer", "minimum": 1 }
       }
     },
     "valorRecorte": {

@@ -23,3 +23,10 @@ def test_normalizar_censo_prevalece():
 def test_estimativas_anteriores_ao_censo_2022_descartadas():
     antigas = [{"Município (Código)": "4314902", "Ano (Código)": "2021", "Valor": 1492530.0}]
     assert normalizar(antigas, []) == []
+
+
+def test_consultas_so_do_recorte_sem_total_brasil():
+    from observatorio.fontes.ibge_populacao import urls
+    u = urls()
+    assert set(u) == {"estimativas", "censo"}
+    assert all("/n6/4301057%2C" in url for url in u.values())

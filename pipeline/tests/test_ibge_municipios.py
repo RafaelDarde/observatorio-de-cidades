@@ -18,18 +18,11 @@ def test_parse_devolve_um_por_municipio():
     assert len(parse(DADOS)) == 3
 
 
-def test_total_api_usa_cache_mais_recente_mesmo_de_outro_dia(tmp_path, monkeypatch):
-    from observatorio.fontes import ibge_municipios
-    monkeypatch.setattr(ibge_municipios, "CACHE_FONTE", tmp_path)
-    for dia, n in [("2026-11-01", 2), ("2026-11-05", 3)]:
-        (tmp_path / dia).mkdir()
-        (tmp_path / dia / "municipios.json").write_text(json.dumps(DADOS[:n]), encoding="utf-8")
-    assert ibge_municipios.total_api() == 3
+def test_parse_filtra_pelo_recorte():
+    assert parse(DADOS, codigos={"4314902"}) == [("4314902", "431490", "Porto Alegre", "RS", "Sul")]
 
 
-def test_total_api_sem_cache_da_erro_claro(tmp_path, monkeypatch):
-    import pytest
+def test_total_esperado_e_o_tamanho_do_recorte():
     from observatorio.fontes import ibge_municipios
-    monkeypatch.setattr(ibge_municipios, "CACHE_FONTE", tmp_path)
-    with pytest.raises(FileNotFoundError, match="municípios"):
-        ibge_municipios.total_api()
+    from observatorio.recorte import carregar_recorte
+    assert ibge_municipios.total_esperado() == len(carregar_recorte().municipios)

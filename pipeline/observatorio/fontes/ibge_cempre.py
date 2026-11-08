@@ -7,7 +7,7 @@ from pathlib import Path
 
 from observatorio import rede
 from observatorio.banco import substituir_fatos
-from observatorio.config import cache_do_dia
+from observatorio.recorte import cache_do_recorte, territorio_sidra
 from observatorio.sidra import parse_sidra, url_sidra
 
 TABELA_TOTAIS, TABELA_SECOES = 9509, 9510
@@ -21,8 +21,6 @@ VARIAVEIS: dict[int, str] = {
 # Categorias da classificação 12762 que são seções (A–U); o "Total" (117897) vem da 9509.
 SECOES = [116830, 116880, 116910, 117296, 117307, 117329, 117363, 117484, 117543, 117555, 117608,
           117666, 117673, 117714, 117774, 117788, 117810, 117838, 117861, 117888, 117892]
-UFS = ["11", "12", "13", "14", "15", "16", "17", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-       "31", "32", "33", "35", "41", "42", "43", "50", "51", "52", "53"]
 _CNAE = "Classificação Nacional de Atividades Econômicas (CNAE 2.0)"
 
 
@@ -40,17 +38,19 @@ def normalizar(linhas_totais: list[dict], linhas_secoes: list[dict]) -> list[tup
 
 
 def _dir() -> Path:
-    return cache_do_dia(FONTE)
+    return cache_do_recorte(FONTE)
+
+
+def urls() -> dict[str, str]:
+    territorio = territorio_sidra()
+    classif = f"c{CLASSIFICACAO_CNAE}/{','.join(map(str, SECOES))}"
+    return {"totais": url_sidra(TABELA_TOTAIS, list(VARIAVEIS), "last 3", territorio=territorio),
+            "secoes": url_sidra(TABELA_SECOES, list(VARIAVEIS), "last 1", territorio=territorio,
+                                classificacao=classif)}
 
 
 def baixar() -> list[Path]:
-    arquivos = [rede.baixar(url_sidra(TABELA_TOTAIS, list(VARIAVEIS), "last 3"), _dir() / "totais.json")]
-    classif = f"c{CLASSIFICACAO_CNAE}/{','.join(map(str, SECOES))}"
-    for uf in UFS:
-        url = url_sidra(TABELA_SECOES, list(VARIAVEIS), "last 1", territorio=f"n6/in n3 {uf}",
-                        classificacao=classif)
-        arquivos.append(rede.baixar(url, _dir() / f"secoes_{uf}.json"))
-    return arquivos
+    return [rede.baixar(url, _dir() / f"{nome}.json") for nome, url in urls().items()]
 
 
 def _ler(caminho: Path) -> list[dict]:
@@ -58,5 +58,4 @@ def _ler(caminho: Path) -> list[dict]:
 
 
 def carregar(con) -> int:
-    secoes = [l for uf in UFS for l in _ler(_dir() / f"secoes_{uf}.json")]
-    return substituir_fatos(con, FONTE, normalizar(_ler(_dir() / "totais.json"), secoes))
+    return substituir_fatos(con, FONTE, normalizar(_ler(_dir() / "totais.json"), _ler(_dir() / "secoes.json")))
