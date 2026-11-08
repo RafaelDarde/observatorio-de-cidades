@@ -1,0 +1,38 @@
+name: Atualizar dados
+
+# Roda o pipeline toda segunda-feira e commita os JSONs novos em web/public/dados.
+# O commit na branch padrão dispara o deploy automático da Vercel.
+on:
+  schedule:
+    - cron: "0 9 * * 1" # segunda, 09:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Rodar pipeline
+        working-directory: pipeline
+        run: |
+          uv sync --frozen
+          uv run observatorio atualizar
+
+      - name: Commitar dados atualizados
+        run: |
+          git add web/public/dados
+          if git diff --cached --quiet; then
+            echo "Sem mudanças nos dados."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "dados: atualização semanal"
+          git push
