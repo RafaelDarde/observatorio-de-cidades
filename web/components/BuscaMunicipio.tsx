@@ -14,11 +14,13 @@ export function BuscaMunicipio({
   placeholder = "Buscar município…",
   desativado = false,
   autoFocus = false,
+  variante = "padrao",
 }: {
   aoSelecionar?: (m: Item) => void;
   placeholder?: string;
   desativado?: boolean;
   autoFocus?: boolean;
+  variante?: "padrao" | "hero";
 }) {
   const router = useRouter();
   const listaId = useId();
@@ -59,6 +61,20 @@ export function BuscaMunicipio({
 
   return (
     <div className="relative w-full">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        aria-hidden="true"
+        className={`pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 ${variante === "hero" ? "text-suave" : "text-suave/80"}`}
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
       <input
         ref={input}
         type="search"
@@ -81,10 +97,12 @@ export function BuscaMunicipio({
         }}
         onKeyDown={aoTeclar}
         onBlur={() => setTimeout(() => setAberto(false), 150)}
-        className="w-full rounded-lg border border-linha bg-cartao px-4 py-3 text-base outline-none focus:border-destaque focus:ring-2 focus:ring-destaque/20 disabled:opacity-50"
+        className={`w-full rounded-xl border bg-cartao py-3 pl-11 pr-4 text-base text-tinta outline-none transition-shadow placeholder:text-suave/70 focus:border-destaque focus:ring-4 focus:ring-farol/40 disabled:opacity-50 ${
+          variante === "hero" ? "border-transparent py-3.5 shadow-lg" : "border-linha"
+        }`}
       />
       {falhou && (
-        <p role="alert" className="mt-1 text-xs text-negativo">
+        <p role="alert" className={`mt-1 text-xs ${variante === "hero" ? "text-red-200" : "text-negativo"}`}>
           Não foi possível carregar a lista de municípios. Clique na busca para tentar de novo.
         </p>
       )}
@@ -92,7 +110,7 @@ export function BuscaMunicipio({
         <ul
           id={listaId}
           role="listbox"
-          className="absolute z-10 mt-1 w-full overflow-hidden rounded-lg border border-linha bg-cartao shadow-lg"
+          className="absolute z-20 mt-2 w-full overflow-hidden rounded-xl border border-linha bg-cartao p-1 text-tinta shadow-xl"
         >
           {resultados.map((m, i) => (
             <li
@@ -104,7 +122,7 @@ export function BuscaMunicipio({
                 escolher(m);
               }}
               onMouseEnter={() => setAtivo(i)}
-              className={`cursor-pointer px-4 py-2 ${i === ativo ? "bg-papel" : ""}`}
+              className={`cursor-pointer rounded-lg px-3 py-2 ${i === ativo ? "bg-espuma" : ""}`}
             >
               {m.nome} <span className="text-suave">– {m.uf}</span>
             </li>
