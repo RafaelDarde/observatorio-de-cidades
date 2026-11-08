@@ -31,7 +31,7 @@ async function perfilDe(params: PageProps<"/municipio/[id]">["params"]) {
 
 export async function generateMetadata({ params }: PageProps<"/municipio/[id]">): Promise<Metadata> {
   const perfil = await perfilDe(params);
-  return { title: `${perfil.nome} (${perfil.uf}) — Observatório do Litoral Gaúcho` };
+  return { title: `${perfil.nome} (${perfil.uf}) — Observatório Litoral Gaúcho` };
 }
 
 export default async function PaginaMunicipio({ params }: PageProps<"/municipio/[id]">) {

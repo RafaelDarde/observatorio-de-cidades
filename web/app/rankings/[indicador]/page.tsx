@@ -18,7 +18,7 @@ function itemDe(id: string) {
 
 export async function generateMetadata({ params }: PageProps<"/rankings/[indicador]">): Promise<Metadata> {
   const item = itemDe((await params).indicador);
-  return { title: `Ranking: ${item.nome} — Observatório do Litoral Gaúcho` };
+  return { title: `Ranking: ${item.nome} — Observatório Litoral Gaúcho` };
 }
 
 export default async function PaginaRanking({ params }: PageProps<"/rankings/[indicador]">) {

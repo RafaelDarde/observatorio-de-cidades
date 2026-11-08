@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { lerCatalogo, lerMeta } from "@/lib/dados";
 
-export const metadata: Metadata = { title: "Sobre — Observatório do Litoral Gaúcho" };
+export const metadata: Metadata = { title: "Sobre — Observatório Litoral Gaúcho" };
 
 const NOMES_FONTES: Record<string, string> = {
   ibge_municipios: "IBGE — Lista de municípios (API de Localidades)",

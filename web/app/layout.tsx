@@ -10,7 +10,7 @@ const titulo = Bricolage_Grotesque({ variable: "--font-titulo", subsets: ["latin
 const corpo = Hanken_Grotesk({ variable: "--font-corpo", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Observatório do Litoral Gaúcho",
+  title: "Observatório Litoral Gaúcho",
   description: "Dados públicos de população, economia, empresas e emprego dos municípios do litoral do Rio Grande do Sul.",
 };
 

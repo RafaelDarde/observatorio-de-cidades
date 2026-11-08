@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Comparacao } from "@/components/Comparacao";
 import { lerCatalogo } from "@/lib/dados";
 
-export const metadata: Metadata = { title: "Comparar municípios — Observatório do Litoral Gaúcho" };
+export const metadata: Metadata = { title: "Comparar municípios — Observatório Litoral Gaúcho" };
 
 export default function PaginaComparar() {
   return (

@@ -4,7 +4,7 @@ import { lerCatalogo, lerRanking } from "@/lib/dados";
 import { formatarValor } from "@/lib/formatar";
 import type { Tema } from "@/lib/tipos";
 
-export const metadata: Metadata = { title: "Rankings — Observatório do Litoral Gaúcho" };
+export const metadata: Metadata = { title: "Rankings — Observatório Litoral Gaúcho" };
 
 const TEMAS: { id: Tema; titulo: string }[] = [
   { id: "populacao", titulo: "População" },

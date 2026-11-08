@@ -30,7 +30,7 @@ function Conteudo({ cidades, fechar, atualizadoEm }: { cidades: Cidade[]; fechar
         <span className="titulo text-[17px] font-semibold leading-tight text-white">
           Observatório
           <br />
-          do Litoral Gaúcho
+          Litoral Gaúcho
         </span>
       </Link>
 
@@ -116,7 +116,7 @@ export function NavLateral({ cidades, atualizadoEm }: { cidades: Cidade[]; atual
       <div className="sticky top-0 z-30 flex items-center justify-between bg-mare px-4 py-3 lg:hidden">
         <Link href="/" className="flex items-center gap-2.5">
           <Logo tamanho={30} />
-          <span className="titulo text-[15px] font-semibold leading-tight text-white">Observatório do Litoral Gaúcho</span>
+          <span className="titulo text-[15px] font-semibold leading-tight text-white">Observatório Litoral Gaúcho</span>
         </Link>
         <button
           type="button"
