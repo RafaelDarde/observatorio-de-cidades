@@ -20,6 +20,7 @@ Fato = tuple[str, str, str, str | None, float]
 
 def conectar(caminho: str | Path = DB_PATH) -> duckdb.DuckDBPyConnection:
     con = duckdb.connect(str(caminho))
+    con.execute("set enable_progress_bar = false")
     con.execute(_DDL)
     return con
 
