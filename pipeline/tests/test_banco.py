@@ -16,3 +16,13 @@ def test_substituir_fatos_troca_so_a_fonte_e_registra_carga():
     assert con.execute("select count(*) from fatos where fonte='a'").fetchone()[0] == 2
     assert con.execute("select count(*) from fatos where fonte='b'").fetchone()[0] == 1
     assert con.execute("select periodo_min, periodo_max, linhas from cargas where fonte='a'").fetchone() == ("2022", "2023", 2)
+
+
+def test_substituir_fatos_volume_grande_rapido():
+    import time
+    con = conectar(":memory:")
+    linhas = [(f"{i:07d}", "x", "2020", None if i % 2 else "r", float(i)) for i in range(200_000)]
+    t = time.perf_counter()
+    assert substituir_fatos(con, "a", linhas) == 200_000
+    assert time.perf_counter() - t < 10
+    assert con.execute("select count(*) from fatos where recorte is null").fetchone()[0] == 100_000

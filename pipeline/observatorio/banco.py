@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import duckdb
+import pyarrow as pa
 
 from observatorio.config import DB_PATH
 
@@ -28,9 +29,17 @@ def substituir_fatos(con: duckdb.DuckDBPyConnection, fonte: str, linhas: list[Fa
     try:
         con.execute("delete from fatos where fonte = ?", [fonte])
         if linhas:
-            con.executemany(
-                "insert into fatos values (?, ?, ?, ?, ?, ?)", [(fonte, *linha) for linha in linhas]
-            )
+            cods, inds, pers, recs, vals = zip(*linhas)
+            tabela = pa.table({
+                "cod_municipio": pa.array(cods, pa.string()),
+                "indicador": pa.array(inds, pa.string()),
+                "periodo": pa.array(pers, pa.string()),
+                "recorte": pa.array(recs, pa.string()),
+                "valor": pa.array(vals, pa.float64()),
+            })
+            con.register("_novos_fatos", tabela)
+            con.execute("insert into fatos select ?, * from _novos_fatos", [fonte])
+            con.unregister("_novos_fatos")
         periodos = [linha[2] for linha in linhas]
         con.execute(
             "insert or replace into cargas values (?, now(), ?, ?, ?)",
