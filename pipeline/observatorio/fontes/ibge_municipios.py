@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from observatorio import rede
-from observatorio.config import cache_do_dia
+from observatorio.config import CACHE_DIR, cache_do_dia
 
 URL = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
 def _arquivo():
@@ -22,8 +22,13 @@ def parse(dados: list[dict]) -> list[tuple[str, str, str, str, str]]:
     return linhas
 
 
+CACHE_FONTE = CACHE_DIR / "ibge_municipios"
+
+
 def _ler() -> list[dict]:
-    return json.loads(_arquivo().read_text(encoding="utf-8"))
+    # O cache mais recente, mesmo de outro dia (ex.: `atualizar --fonte caged` não baixa municípios).
+    arquivo = max(CACHE_FONTE.glob("*/municipios.json"))
+    return json.loads(arquivo.read_text(encoding="utf-8"))
 
 
 def baixar() -> list[Path]:
