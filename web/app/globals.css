@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --papel: #f6f5f1;
+  --cartao: #ffffff;
+  --tinta: #1d2430;
+  --suave: #5d6776;
+  --linha: #e2e0d9;
+  --destaque: #0f6e66;
+  --positivo: #17803d;
+  --negativo: #b42318;
+}
+
+@theme inline {
+  --color-papel: var(--papel);
+  --color-cartao: var(--cartao);
+  --color-tinta: var(--tinta);
+  --color-suave: var(--suave);
+  --color-linha: var(--linha);
+  --color-destaque: var(--destaque);
+  --color-positivo: var(--positivo);
+  --color-negativo: var(--negativo);
+  --font-sans: var(--font-geist-sans);
+}
+
+body {
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}

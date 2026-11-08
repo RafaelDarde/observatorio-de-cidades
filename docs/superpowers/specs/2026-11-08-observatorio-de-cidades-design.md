@@ -74,7 +74,7 @@ Cada indicador tem `id`, `nome`, `unidade` (`pessoas`, `R$`, `R$ mil`, `salarios
 | Fonte | Acesso | Indicadores |
 |---|---|---|
 | IBGE Localidades | `servicodados.ibge.gov.br/api/v1/localidades/municipios` | lista de municípios (não é indicador) |
-| IBGE População | API SIDRA: estimativas anuais (tabela 6579) e Censo 2022 (tabela 4709) | `populacao`, `populacao_var_5a` (derivado, %) |
+| IBGE População | API SIDRA: estimativas anuais (tabela 6579) e Censo 2022 (tabela 4709) | `populacao` (a partir do Censo 2022), `populacao_var_censo` (derivado, %: variação desde o Censo 2022) |
 | IBGE PIB dos Municípios | API SIDRA (tabela 5938) | `pib`, `pib_per_capita`, `vab_agro`, `vab_industria`, `vab_servicos`, `vab_adm_publica` |
 | IBGE CEMPRE | API SIDRA (tabela municipal por seção CNAE 2.0, 1685) | `cempre_unidades_locais`, `cempre_pessoal_ocupado`, `cempre_salario_medio_sm` (com recorte por seção CNAE) |
 | Novo CAGED (MTE) | microdados mensais no FTP do PDET (`ftp.mtps.gov.br/pdet/microdados/NOVO CAGED/`) | `caged_admissoes`, `caged_desligamentos`, `caged_saldo` (mensais, com recorte por grande setor), `caged_saldo_12m` e `caged_saldo_12m_por_mil_hab` (derivados) |
