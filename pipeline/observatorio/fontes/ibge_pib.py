@@ -27,14 +27,16 @@ def normalizar(linhas: list[dict]) -> list[tuple]:
     return resultado
 
 
-def _caminho() -> Path:
-    return cache_do_dia(FONTE) / "pib.json"
+def urls() -> dict[str, str]:
+    # Uma requisição por variável: todas juntas passam do limite de valores por consulta do SIDRA.
+    return {f"pib_{v}": url_sidra(TABELA, [v], "last 5") for v in VARIAVEIS}
 
 
 def baixar() -> list[Path]:
-    return [rede.baixar(url_sidra(TABELA, list(VARIAVEIS), "last 5"), _caminho())]
+    return [rede.baixar(url, cache_do_dia(FONTE) / f"{nome}.json") for nome, url in urls().items()]
 
 
 def carregar(con) -> int:
-    linhas = parse_sidra(json.loads(_caminho().read_text(encoding="utf-8")))
+    linhas = [l for nome in urls() for l in parse_sidra(
+        json.loads((cache_do_dia(FONTE) / f"{nome}.json").read_text(encoding="utf-8")))]
     return substituir_fatos(con, FONTE, normalizar(linhas))

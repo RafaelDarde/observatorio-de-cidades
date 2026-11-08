@@ -18,3 +18,10 @@ def test_normalizar_mapeia_variaveis():
 def test_variavel_desconhecida_ignorada():
     linhas = [{"Município (Código)": "4314902", "Ano (Código)": "2023", "Variável (Código)": "496", "Valor": 1.0}]
     assert normalizar(linhas) == []
+
+
+def test_uma_requisicao_por_variavel_para_respeitar_limite_do_sidra():
+    from observatorio.fontes.ibge_pib import VARIAVEIS, urls
+    u = urls()
+    assert set(u) == {f"pib_{v}" for v in VARIAVEIS}
+    assert u["pib_37"].endswith("/t/5938/n6/all/v/37/p/last%205")
