@@ -30,11 +30,11 @@ export function GraficoLinha({ serie, unidade }: { serie: Ponto[]; unidade: stri
       <LineChart data={serie} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
         <CartesianGrid stroke="#e2e0d9" vertical={false} />
         <XAxis dataKey="periodo" tick={EIXO} tickLine={false} axisLine={false} />
-        <YAxis tick={EIXO} tickLine={false} axisLine={false} width={72}
+        <YAxis tick={EIXO} tickLine={false} axisLine={false} width={88}
                tickFormatter={(v: number) => formatarValor(v, unidade)} />
         <ReferenceLine y={0} stroke="#b9b6ad" />
         <Tooltip formatter={(v) => formatarValor(Number(v), unidade)} />
-        <Line type="monotone" dataKey="valor" stroke={CORES[0]} strokeWidth={2} dot={serie.length <= 12} />
+        <Line type="monotone" dataKey="valor" stroke={CORES[0]} strokeWidth={2} dot={serie.length <= 12} isAnimationActive={false} />
       </LineChart>
     </ResponsiveContainer>
   );
@@ -53,7 +53,7 @@ export function GraficoBarras({ dados, unidade }: { dados: ValorRecorte[]; unida
                tickFormatter={(t: string) => encurtar(t)} />
         <ReferenceLine x={0} stroke="#b9b6ad" />
         <Tooltip formatter={(v) => formatarValor(Number(v), unidade)} />
-        <Bar dataKey="valor" radius={[0, 3, 3, 0]}>
+        <Bar dataKey="valor" radius={[0, 3, 3, 0]} isAnimationActive={false}>
           {ordenados.map((d) => (
             <Cell key={d.recorte} fill={d.valor < 0 ? "#b42318" : CORES[0]} />
           ))}
@@ -82,14 +82,14 @@ export function GraficoComparacao({
       <LineChart data={dados} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
         <CartesianGrid stroke="#e2e0d9" vertical={false} />
         <XAxis dataKey="periodo" tick={EIXO} tickLine={false} axisLine={false} />
-        <YAxis tick={EIXO} tickLine={false} axisLine={false} width={72}
+        <YAxis tick={EIXO} tickLine={false} axisLine={false} width={88}
                tickFormatter={(v: number) => formatarValor(v, unidade)} />
         <ReferenceLine y={0} stroke="#b9b6ad" />
         <Tooltip formatter={(v) => formatarValor(Number(v), unidade)} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         {series.map((s, i) => (
           <Line key={s.nome} type="monotone" dataKey={s.nome} stroke={CORES[i % CORES.length]}
-                strokeWidth={2} dot={periodos.length <= 12} connectNulls />
+                strokeWidth={2} dot={periodos.length <= 12} connectNulls isAnimationActive={false} />
         ))}
       </LineChart>
     </ResponsiveContainer>

@@ -20,8 +20,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               Observatório de Cidades
             </Link>
             <span className="flex-1" />
-            <Link href="/rankings" className="text-suave hover:text-tinta">Rankings</Link>
-            <Link href="/sobre" className="text-suave hover:text-tinta">Sobre</Link>
+            <Link href="/rankings" prefetch={false} className="text-suave hover:text-tinta">Rankings</Link>
+            <Link href="/sobre" prefetch={false} className="text-suave hover:text-tinta">Sobre</Link>
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>

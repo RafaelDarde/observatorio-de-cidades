@@ -48,6 +48,7 @@ export default async function PaginaMunicipio({ params }: PageProps<"/municipio/
         </div>
         <Link
           href={`/comparar?c=${perfil.cod}`}
+          prefetch={false}
           className="rounded-lg border border-destaque px-4 py-2 text-sm font-medium text-destaque hover:bg-destaque hover:text-white"
         >
           Comparar com…
