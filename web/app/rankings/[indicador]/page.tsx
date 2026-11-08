@@ -18,19 +18,19 @@ function itemDe(id: string) {
 
 export async function generateMetadata({ params }: PageProps<"/rankings/[indicador]">): Promise<Metadata> {
   const item = itemDe((await params).indicador);
-  return { title: `Ranking: ${item.nome} — Observatório de Cidades` };
+  return { title: `Ranking: ${item.nome} — Observatório do Litoral Gaúcho` };
 }
 
 export default async function PaginaRanking({ params }: PageProps<"/rankings/[indicador]">) {
   const item = itemDe((await params).indicador);
   return (
     <div className="space-y-6">
-      <div>
-        <Link href="/rankings" className="text-sm text-destaque hover:underline">← Rankings</Link>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">{item.nome}</h1>
-        <p className="mt-1 text-suave">{item.descricao}</p>
+      <header>
+        <Link href="/rankings" className="text-sm font-medium text-destaque hover:underline">← Rankings</Link>
+        <h1 className="mt-2 text-3xl font-semibold sm:text-4xl">{item.nome}</h1>
+        <p className="mt-2 max-w-2xl text-suave">{item.descricao}</p>
         <p className="mt-1 text-xs text-suave">Fonte: {item.fonte} · Período: {item.periodo_max ?? "—"}</p>
-      </div>
+      </header>
       <TabelaRanking indicador={item.id} unidade={item.unidade} />
     </div>
   );

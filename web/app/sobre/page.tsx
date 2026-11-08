@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { lerCatalogo, lerMeta } from "@/lib/dados";
 
-export const metadata: Metadata = { title: "Sobre — Observatório de Cidades" };
+export const metadata: Metadata = { title: "Sobre — Observatório do Litoral Gaúcho" };
 
 const NOMES_FONTES: Record<string, string> = {
   ibge_municipios: "IBGE — Lista de municípios (API de Localidades)",
@@ -18,10 +18,10 @@ export default function PaginaSobre() {
   const catalogo = lerCatalogo();
   const meta = lerMeta();
   return (
-    <div className="max-w-3xl space-y-10">
+    <div className="max-w-3xl space-y-6">
       <section className="space-y-3">
-        <h1 className="text-3xl font-semibold tracking-tight">Sobre o Observatório</h1>
-        <p className="text-suave">
+        <h1 className="text-3xl font-semibold sm:text-4xl">Sobre o Observatório</h1>
+        <p className="leading-relaxed text-suave">
           Projeto de estudo que reúne dados públicos e gratuitos sobre os 16 municípios do litoral do Rio Grande do Sul
           — os municípios gaúchos defrontantes com o mar, pela lista oficial do IBGE (2024). Rankings e posições
           comparam só esses municípios entre si. Um pipeline em
@@ -30,8 +30,8 @@ export default function PaginaSobre() {
         </p>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold">Fontes</h2>
+      <section className="cartao space-y-3 overflow-x-auto p-5">
+        <h2 className="text-xl font-semibold">Fontes</h2>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-linha text-left text-suave">
@@ -52,8 +52,8 @@ export default function PaginaSobre() {
         </table>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold">Indicadores</h2>
+      <section className="cartao space-y-3 p-5">
+        <h2 className="text-xl font-semibold">Indicadores</h2>
         <dl className="space-y-4 text-sm">
           {catalogo.map((c) => (
             <div key={c.id}>
@@ -65,8 +65,8 @@ export default function PaginaSobre() {
         </dl>
       </section>
 
-      <section className="space-y-3 text-sm text-suave">
-        <h2 className="text-lg font-semibold text-tinta">Metodologia</h2>
+      <section className="cartao space-y-3 p-5 text-sm leading-relaxed text-suave">
+        <h2 className="text-xl font-semibold text-tinta">Metodologia</h2>
         <p>
           Todas as fontes são normalizadas numa única tabela em formato longo (município, indicador, período,
           recorte, valor). Assim, uma fonte nova entra como um módulo novo no pipeline, sem mudar o site.
@@ -82,8 +82,8 @@ export default function PaginaSobre() {
         </p>
       </section>
 
-      <section className="space-y-3 text-sm text-suave">
-        <h2 className="text-lg font-semibold text-tinta">Limitações</h2>
+      <section className="cartao space-y-3 p-5 text-sm leading-relaxed text-suave">
+        <h2 className="text-xl font-semibold text-tinta">Limitações</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>O CEMPRE tem defasagem de cerca de dois anos. A quebra por setor só é publicada para parte dos municípios, e há valores omitidos por sigilo estatístico.</li>
           <li>O valor adicionado por setor do PIB municipal só está publicado até 2021, enquanto o PIB total vai até o ano mais recente.</li>

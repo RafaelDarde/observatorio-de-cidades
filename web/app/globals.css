@@ -1,14 +1,24 @@
 @import "tailwindcss";
 
+/*
+  Paleta do litoral sul: Atlântico frio e esverdeado, areia clara das dunas,
+  neblina da manhã e o âmbar do facho do farol. Nada de azul-turquesa tropical.
+*/
 :root {
-  --papel: #f6f5f1;
+  --papel: #edf2f3;
   --cartao: #ffffff;
-  --tinta: #1d2430;
-  --suave: #5d6776;
-  --linha: #e2e0d9;
-  --destaque: #0f6e66;
+  --tinta: #0d2433;
+  --suave: #566c7a;
+  --linha: #dae4e7;
+  --destaque: #0b6a80;
+  --mare: #0a2a3d;
+  --mare-2: #11435b;
+  --espuma: #d6eaec;
+  --areia: #e8dfc8;
+  --farol: #f0b13b;
   --positivo: #17803d;
-  --negativo: #b42318;
+  --negativo: #c0392b;
+  --sombra: 0 1px 2px rgb(10 42 61 / 0.05), 0 8px 24px -12px rgb(10 42 61 / 0.18);
 }
 
 @theme inline {
@@ -18,13 +28,143 @@
   --color-suave: var(--suave);
   --color-linha: var(--linha);
   --color-destaque: var(--destaque);
+  --color-mare: var(--mare);
+  --color-mare-2: var(--mare-2);
+  --color-espuma: var(--espuma);
+  --color-areia: var(--areia);
+  --color-farol: var(--farol);
   --color-positivo: var(--positivo);
   --color-negativo: var(--negativo);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-corpo);
+  --font-display: var(--font-titulo);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--papel);
   color: var(--tinta);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-corpo), system-ui, sans-serif;
+  font-feature-settings: "tnum" 1;
+}
+
+h1,
+h2,
+h3,
+.titulo {
+  font-family: var(--font-titulo), var(--font-corpo), system-ui, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--farol);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.cartao {
+  background: var(--cartao);
+  border: 1px solid var(--linha);
+  border-radius: 1rem;
+  box-shadow: var(--sombra);
+}
+
+/* Rolagem fina e discreta para fundos escuros (lista de cidades da barra lateral). */
+.rolagem-discreta {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 0.18) transparent;
+  /* Esmaece o fim da lista para indicar que há mais cidades abaixo. */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+}
+.rolagem-discreta::-webkit-scrollbar {
+  width: 6px;
+}
+.rolagem-discreta::-webkit-scrollbar-track {
+  background: transparent;
+}
+.rolagem-discreta::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.18);
+  border-radius: 999px;
+}
+.rolagem-discreta:hover::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.32);
+}
+
+/* Entrada do mapa: os municípios aparecem do norte para o sul, como uma onda subindo a costa. */
+@keyframes onda-entrada {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mar-desliza {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-60px);
+  }
+}
+@keyframes farol-gira {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+@keyframes cresce {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.mun-entrada {
+  animation: onda-entrada 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.mar-ondas {
+  animation: mar-desliza 14s linear infinite;
+}
+.farol-brilho {
+  animation: farol-gira 4s ease-in-out infinite;
+}
+@keyframes pulso {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.anel-pulso {
+  animation: pulso 1.4s ease-out infinite;
+}
+.barra-cresce {
+  transform-origin: left;
+  animation: cresce 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .mun-entrada,
+  .anel-pulso,
+  .mar-ondas,
+  .farol-brilho,
+  .barra-cresce {
+    animation: none;
+  }
 }

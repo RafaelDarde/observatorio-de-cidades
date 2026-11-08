@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Cartao, Indicador } from "@/components/Indicador";
+import { MiniMapaCidade } from "@/components/MiniMapaCidade";
 import { lerCatalogo, lerIndice, lerMeta, lerPerfil } from "@/lib/dados";
 import { codDeId, idMunicipio } from "@/lib/normalizar";
 import type { Tema } from "@/lib/tipos";
@@ -30,7 +31,7 @@ async function perfilDe(params: PageProps<"/municipio/[id]">["params"]) {
 
 export async function generateMetadata({ params }: PageProps<"/municipio/[id]">): Promise<Metadata> {
   const perfil = await perfilDe(params);
-  return { title: `${perfil.nome} (${perfil.uf}) — Observatório de Cidades` };
+  return { title: `${perfil.nome} (${perfil.uf}) — Observatório do Litoral Gaúcho` };
 }
 
 export default async function PaginaMunicipio({ params }: PageProps<"/municipio/[id]">) {
@@ -40,30 +41,51 @@ export default async function PaginaMunicipio({ params }: PageProps<"/municipio/
   const porId = Object.fromEntries(catalogo.map((c) => [c.id, c]));
 
   return (
-    <div className="space-y-10">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm text-suave">{perfil.regiao} · {perfil.uf}</p>
-          <h1 className="text-3xl font-semibold tracking-tight">{perfil.nome}</h1>
+    <div className="space-y-8">
+      <header className="relative rounded-3xl bg-gradient-to-br from-mare via-mare to-mare-2 text-white shadow-[0_20px_40px_-24px_rgb(10_42_61/0.7)]">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl" aria-hidden="true">
+          <div className="farol-brilho absolute -left-16 -top-24 h-72 w-72 rounded-full bg-farol/25 blur-3xl" />
         </div>
-        <Link
-          href={`/comparar?c=${perfil.cod}`}
-          prefetch={false}
-          className="rounded-lg border border-destaque px-4 py-2 text-sm font-medium text-destaque hover:bg-destaque hover:text-white"
-        >
-          Comparar com…
-        </Link>
+        <div className="relative flex items-center justify-between gap-6 px-6 py-8 sm:px-10 sm:py-10">
+          <div className="min-w-0">
+            <nav aria-label="Você está em" className="text-sm text-white/65">
+              <Link href="/" className="hover:text-white">Panorama</Link>
+              <span className="mx-2" aria-hidden="true">/</span>
+              {perfil.regiao}, {perfil.uf}
+            </nav>
+            <h1 className="mt-2 text-4xl font-semibold leading-tight sm:text-5xl">{perfil.nome}</h1>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <Link
+                href={`/comparar?c=${perfil.cod}`}
+                prefetch={false}
+                className="rounded-xl bg-farol px-4 py-2.5 text-sm font-semibold text-mare transition-colors hover:bg-white"
+              >
+                Comparar com…
+              </Link>
+              <nav aria-label="Temas" className="flex flex-wrap gap-1.5">
+                {TEMAS.map((t) => (
+                  <a key={t.id} href={`#${t.id}`} className="rounded-full bg-white/10 px-3 py-1.5 text-sm text-white/90 transition-colors hover:bg-white/20">
+                    {t.titulo}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </div>
+          <div className="hidden w-40 shrink-0 sm:block md:w-[180px]">
+            <MiniMapaCidade cod={perfil.cod} nome={perfil.nome} />
+          </div>
+        </div>
       </header>
 
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <section aria-label="Resumo" className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {CARTOES.filter((id) => porId[id]).map((id) => (
           <Cartao key={id} item={porId[id]} dados={perfil.indicadores[id] ?? null} />
         ))}
       </section>
 
       {TEMAS.map((tema) => (
-        <section key={tema.id} className="space-y-3">
-          <h2 className="text-lg font-semibold">{tema.titulo}</h2>
+        <section key={tema.id} id={tema.id} className="scroll-mt-20 space-y-4 lg:scroll-mt-6">
+          <h2 className="text-2xl font-semibold">{tema.titulo}</h2>
           <div className="grid gap-4 md:grid-cols-2">
             {catalogo
               .filter((c) => c.tema === tema.id)
