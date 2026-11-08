@@ -1,4 +1,4 @@
-# Atualização semanal dos dados (roda pelo Agendador de Tarefas do Windows).
+﻿# Atualização semanal dos dados (roda pelo Agendador de Tarefas do Windows).
 # Precisa rodar no Brasil: as APIs do IBGE e o FTP do CAGED recusam conexões de fora,
 # por isso não roda no GitHub Actions.
 #
@@ -36,8 +36,10 @@ try {
     } finally { Pop-Location }
 
     Rodar "git add" { git -C $wt add web/public/dados }
-    git -C $wt diff --cached --quiet
-    if ($LASTEXITCODE -eq 0) {
+    # meta.json muda a cada execução (data de geração); sozinho não justifica commit nem deploy.
+    $mudados = git -C $wt diff --cached --name-only | Where-Object { $_ -notlike "*/meta.json" }
+    if (-not $mudados) {
+        Rodar "git reset" { git -C $wt reset --quiet }
         Write-Output "Sem mudanças nos dados."
     } else {
         Rodar "git commit" { git -C $wt commit -m "dados: atualização semanal" }
