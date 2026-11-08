@@ -1,0 +1,105 @@
+[
+ {
+  "id": 4205407,
+  "nome": "Florianópolis",
+  "microrregiao": {
+   "id": 42016,
+   "nome": "Florianópolis",
+   "mesorregiao": {
+    "id": 4205,
+    "nome": "Grande Florianópolis",
+    "UF": {
+     "id": 42,
+     "sigla": "SC",
+     "nome": "Santa Catarina",
+     "regiao": {
+      "id": 4,
+      "sigla": "S",
+      "nome": "Sul"
+     }
+    }
+   }
+  },
+  "regiao-imediata": {
+   "id": 420001,
+   "nome": "Florianópolis",
+   "regiao-intermediaria": {
+    "id": 4201,
+    "nome": "Florianópolis",
+    "UF": {
+     "id": 42,
+     "sigla": "SC",
+     "nome": "Santa Catarina",
+     "regiao": {
+      "id": 4,
+      "sigla": "S",
+      "nome": "Sul"
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": 4314902,
+  "nome": "Porto Alegre",
+  "microrregiao": {
+   "id": 43026,
+   "nome": "Porto Alegre",
+   "mesorregiao": {
+    "id": 4305,
+    "nome": "Metropolitana de Porto Alegre",
+    "UF": {
+     "id": 43,
+     "sigla": "RS",
+     "nome": "Rio Grande do Sul",
+     "regiao": {
+      "id": 4,
+      "sigla": "S",
+      "nome": "Sul"
+     }
+    }
+   }
+  },
+  "regiao-imediata": {
+   "id": 430001,
+   "nome": "Porto Alegre",
+   "regiao-intermediaria": {
+    "id": 4301,
+    "nome": "Porto Alegre",
+    "UF": {
+     "id": 43,
+     "sigla": "RS",
+     "nome": "Rio Grande do Sul",
+     "regiao": {
+      "id": 4,
+      "sigla": "S",
+      "nome": "Sul"
+     }
+    }
+   }
+  }
+ },
+ {
+  "id": 5101837,
+  "nome": "Boa Esperança do Norte",
+  "microrregiao": null,
+  "regiao-imediata": {
+   "id": 510008,
+   "nome": "Sorriso",
+   "regiao-intermediaria": {
+    "id": 5103,
+    "nome": "Sinop",
+    "UF": {
+     "id": 51,
+     "sigla": "MT",
+     "nome": "Mato Grosso",
+     "regiao": {
+      "id": 5,
+      "sigla": "CO",
+      "nome": "Centro-Oeste"
+     }
+    }
+   }
+  }
+ }
+]
