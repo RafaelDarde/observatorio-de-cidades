@@ -1,0 +1,67 @@
+[
+  {
+    "NC": "Nível Territorial (Código)",
+    "NN": "Nível Territorial",
+    "MC": "Unidade de Medida (Código)",
+    "MN": "Unidade de Medida",
+    "V": "Valor",
+    "D1C": "Município (Código)",
+    "D1N": "Município",
+    "D2C": "Variável (Código)",
+    "D2N": "Variável",
+    "D3C": "Ano (Código)",
+    "D3N": "Ano"
+  },
+  {
+    "NC": "6",
+    "NN": "Município",
+    "MC": "45",
+    "MN": "Pessoas",
+    "V": "1389322",
+    "D1C": "4314902",
+    "D1N": "Porto Alegre (RS)",
+    "D2C": "9324",
+    "D2N": "População residente estimada",
+    "D3C": "2024",
+    "D3N": "2024"
+  },
+  {
+    "NC": "6",
+    "NN": "Município",
+    "MC": "45",
+    "MN": "Pessoas",
+    "V": "1388794",
+    "D1C": "4314902",
+    "D1N": "Porto Alegre (RS)",
+    "D2C": "9324",
+    "D2N": "População residente estimada",
+    "D3C": "2025",
+    "D3N": "2025"
+  },
+  {
+    "NC": "6",
+    "NN": "Município",
+    "MC": "45",
+    "MN": "Pessoas",
+    "V": "4253",
+    "D1C": "4300034",
+    "D1N": "Aceguá (RS)",
+    "D2C": "9324",
+    "D2N": "População residente estimada",
+    "D3C": "2024",
+    "D3N": "2024"
+  },
+  {
+    "NC": "6",
+    "NN": "Município",
+    "MC": "45",
+    "MN": "Pessoas",
+    "V": "4251",
+    "D1C": "4300034",
+    "D1N": "Aceguá (RS)",
+    "D2C": "9324",
+    "D2N": "População residente estimada",
+    "D3C": "2025",
+    "D3N": "2025"
+  }
+]

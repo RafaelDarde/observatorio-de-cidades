@@ -3,10 +3,11 @@ import json
 from pathlib import Path
 
 from observatorio import rede
-from observatorio.config import CACHE_DIR
+from observatorio.config import cache_do_dia
 
 URL = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
-ARQUIVO = CACHE_DIR / "ibge_municipios" / "municipios.json"
+def _arquivo():
+    return cache_do_dia("ibge_municipios") / "municipios.json"
 
 
 def parse(dados: list[dict]) -> list[tuple[str, str, str, str, str]]:
@@ -22,11 +23,11 @@ def parse(dados: list[dict]) -> list[tuple[str, str, str, str, str]]:
 
 
 def _ler() -> list[dict]:
-    return json.loads(ARQUIVO.read_text(encoding="utf-8"))
+    return json.loads(_arquivo().read_text(encoding="utf-8"))
 
 
 def baixar() -> list[Path]:
-    return [rede.baixar(URL, ARQUIVO)]
+    return [rede.baixar(URL, _arquivo())]
 
 
 def carregar(con) -> int:
