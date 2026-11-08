@@ -34,11 +34,11 @@ export default function Inicio() {
     <div className="space-y-12">
       <section className="space-y-4 pt-6">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-          Dados públicos dos municípios brasileiros, num só lugar
+          Dados públicos do litoral gaúcho, num só lugar
         </h1>
         <p className="max-w-2xl text-suave">
-          População, PIB, empresas e emprego de qualquer município, com fontes oficiais do IBGE e do
-          Ministério do Trabalho. Busque uma cidade ou compare até três.
+          População, PIB, empresas e emprego dos 16 municípios gaúchos banhados pelo mar, de Torres a Santa Vitória
+          do Palmar, com fontes oficiais do IBGE e do Ministério do Trabalho. Busque uma cidade ou compare até três.
         </p>
         <div className="max-w-xl">
           <BuscaMunicipio autoFocus />

@@ -127,5 +127,5 @@ def baixar() -> list[Path]:
 def carregar(con) -> int:
     resumos = sorted(DIR.glob("*.parquet"))[-CAGED_MESES:]
     tuplas, descartadas = agregar(con, resumos)
-    log.info("CAGED: %d movimentações descartadas por município sem correspondência", descartadas)
+    log.info("CAGED: %d movimentações de municípios fora do recorte ou sem correspondência", descartadas)
     return substituir_fatos(con, FONTE, tuplas)

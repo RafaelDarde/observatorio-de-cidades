@@ -7,7 +7,7 @@ const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Observatório de Cidades",
-  description: "Dados públicos de população, economia, empresas e emprego dos municípios brasileiros.",
+  description: "Dados públicos de população, economia, empresas e emprego dos municípios do litoral do Rio Grande do Sul.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

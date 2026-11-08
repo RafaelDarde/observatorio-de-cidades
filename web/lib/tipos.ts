@@ -77,8 +77,8 @@ export interface Ponto {
  * via the `definition` "posicao".
  */
 export interface Posicao {
-  brasil: number;
-  uf: number;
+  posicao: number;
+  total: number;
 }
 /**
  * This interface was referenced by `DadosObservatorio`'s JSON-Schema

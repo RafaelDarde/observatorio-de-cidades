@@ -58,10 +58,10 @@ def test_sem_valor_no_ultimo_periodo_ultimo_null_serie_mantida(con, catalogo):
     assert ind["ultimo"] is None and ind["posicao"] is None
 
 
-def test_posicoes_brasil_e_uf(con, catalogo):
+def test_posicao_dentro_do_recorte_com_total(con, catalogo):
     perfis = montar_perfis(con, catalogo)
-    assert perfis[POA]["indicadores"]["populacao"]["posicao"] == {"brasil": 1, "uf": 1}
-    assert perfis[FLO]["indicadores"]["populacao"]["posicao"] == {"brasil": 2, "uf": 1}
+    assert perfis[POA]["indicadores"]["populacao"]["posicao"] == {"posicao": 1, "total": 2}
+    assert perfis[FLO]["indicadores"]["populacao"]["posicao"] == {"posicao": 2, "total": 2}
     assert perfis[POA]["indicadores"]["populacao"]["ultimo"] == {"periodo": "2025", "valor": 1100.0}
 
 

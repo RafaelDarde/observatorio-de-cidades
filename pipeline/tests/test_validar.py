@@ -11,7 +11,6 @@ def con():
               "('4300034','430003','Aceguá','RS','Sul')")
     substituir_fatos(c, "ibge_populacao", [("4314902", "populacao", "2025", None, 995.0),
                                            ("4300034", "populacao", "2025", None, 5.0)])
-    c.execute("insert into referencias values ('populacao', '2025', 1000.0)")
     return c
 
 
@@ -35,15 +34,10 @@ def test_recortes_diferentes_nao_sao_duplicata(con):
     assert validar(con, 2) == []
 
 
-def test_populacao_diverge_do_total_brasil(con):
-    con.execute("update referencias set valor = 1020")
-    erros = validar(con, 2)
-    assert len(erros) == 1 and "população" in erros[0]
-
-
-def test_populacao_dentro_de_1_porcento(con):
-    con.execute("update referencias set valor = 1009")
-    assert validar(con, 2) == []
+def test_municipio_sem_populacao(con):
+    con.execute("insert into municipios values ('4321501','432150','Torres','RS','Sul')")
+    erros = validar(con, 3)
+    assert len(erros) == 1 and "Torres" in erros[0]
 
 
 def test_codigo_de_municipio_desconhecido(con):

@@ -33,7 +33,7 @@ def _municipios_falsa():
         return 1
 
     f.carregar = carregar
-    f.total_api = lambda: 1
+    f.total_esperado = lambda: 1
     return f
 
 
@@ -61,7 +61,7 @@ def test_fonte_que_falha_nao_impede_as_outras(ambiente):
 def test_validacao_falha_retorna_1_sem_exportar(ambiente):
     con, saida = ambiente
     m = _municipios_falsa()
-    m.total_api = lambda: 999
+    m.total_esperado = lambda: 999
     assert cli.atualizar(con, {"ibge_municipios": m}) == 1
     assert not saida.exists()
 

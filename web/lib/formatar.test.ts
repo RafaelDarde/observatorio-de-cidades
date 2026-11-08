@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatarValor } from "./formatar";
+import { formatarPosicao, formatarValor } from "./formatar";
 
 describe("formatarValor", () => {
   it.each([
@@ -33,5 +33,11 @@ describe("arredondamento na fronteira das faixas", () => {
     [-0.4, "empregos", "0"],
   ] as const)("%s %s -> %s", (valor, unidade, esperado) => {
     expect(formatarValor(valor, unidade)).toBe(esperado);
+  });
+});
+
+describe("formatarPosicao", () => {
+  it("mostra a posição dentro do recorte com o total", () => {
+    expect(formatarPosicao({ posicao: 2, total: 16 })).toBe("Nº 2 de 16 municípios");
   });
 });

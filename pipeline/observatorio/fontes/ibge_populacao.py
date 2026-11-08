@@ -4,7 +4,7 @@ from pathlib import Path
 
 from observatorio import rede
 from observatorio.banco import substituir_fatos
-from observatorio.config import cache_do_dia
+from observatorio.recorte import cache_do_recorte, territorio_sidra
 from observatorio.sidra import parse_sidra, url_sidra
 
 TABELA_ESTIMATIVAS, VAR_ESTIMATIVAS = 6579, 9324
@@ -14,12 +14,12 @@ FONTE = "ibge_populacao"
 # municípios) e criariam saltos falsos na série; a série começa no Censo.
 ANO_BASE = 2022
 
-ARQUIVOS = {
-    "estimativas": (TABELA_ESTIMATIVAS, VAR_ESTIMATIVAS, "last 10", "n6/all"),
-    "censo": (TABELA_CENSO, VAR_CENSO, "2022", "n6/all"),
-    "estimativas_brasil": (TABELA_ESTIMATIVAS, VAR_ESTIMATIVAS, "last 10", "n1/all"),
-    "censo_brasil": (TABELA_CENSO, VAR_CENSO, "2022", "n1/all"),
-}
+
+
+def urls() -> dict[str, str]:
+    territorio = territorio_sidra()
+    return {"estimativas": url_sidra(TABELA_ESTIMATIVAS, [VAR_ESTIMATIVAS], "last 10", territorio=territorio),
+            "censo": url_sidra(TABELA_CENSO, [VAR_CENSO], "2022", territorio=territorio)}
 
 
 def _por_chave(linhas: list[dict]) -> dict[tuple[str, str], float]:
@@ -33,12 +33,11 @@ def normalizar(linhas_estimativas: list[dict], linhas_censo: list[dict]) -> list
 
 
 def _caminho(nome: str) -> Path:
-    return cache_do_dia(FONTE) / f"{nome}.json"
+    return cache_do_recorte(FONTE) / f"{nome}.json"
 
 
 def baixar() -> list[Path]:
-    return [rede.baixar(url_sidra(t, [v], p, territorio=n), _caminho(nome))
-            for nome, (t, v, p, n) in ARQUIVOS.items()]
+    return [rede.baixar(url, _caminho(nome)) for nome, url in urls().items()]
 
 
 def _ler(nome: str) -> list[dict]:
@@ -46,14 +45,4 @@ def _ler(nome: str) -> list[dict]:
 
 
 def carregar(con) -> int:
-    n = substituir_fatos(con, FONTE, normalizar(_ler("estimativas"), _ler("censo")))
-    brasil = {ano: v for (_, ano), v in
-              (_por_chave(_brasil(_ler("estimativas_brasil"))) | _por_chave(_brasil(_ler("censo_brasil")))).items()}
-    con.execute("delete from referencias where indicador = 'populacao'")
-    con.executemany("insert into referencias values ('populacao', ?, ?)", sorted(brasil.items()))
-    return n
-
-
-def _brasil(linhas: list[dict]) -> list[dict]:
-    # No nível Brasil (n1) a chave territorial é "Brasil (Código)"; uniformiza para reaproveitar _por_chave.
-    return [{"Município (Código)": "BR", "Ano (Código)": l["Ano (Código)"], "Valor": l["Valor"]} for l in linhas]
+    return substituir_fatos(con, FONTE, normalizar(_ler("estimativas"), _ler("censo")))

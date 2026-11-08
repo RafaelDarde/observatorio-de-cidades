@@ -4,7 +4,7 @@ from pathlib import Path
 
 from observatorio import rede
 from observatorio.banco import substituir_fatos
-from observatorio.config import cache_do_dia
+from observatorio.recorte import cache_do_recorte, territorio_sidra
 from observatorio.sidra import parse_sidra, url_sidra
 
 TABELA = 5938
@@ -29,14 +29,14 @@ def normalizar(linhas: list[dict]) -> list[tuple]:
 
 def urls() -> dict[str, str]:
     # Uma requisição por variável: todas juntas passam do limite de valores por consulta do SIDRA.
-    return {f"pib_{v}": url_sidra(TABELA, [v], "last 5") for v in VARIAVEIS}
+    return {f"pib_{v}": url_sidra(TABELA, [v], "last 5", territorio=territorio_sidra()) for v in VARIAVEIS}
 
 
 def baixar() -> list[Path]:
-    return [rede.baixar(url, cache_do_dia(FONTE) / f"{nome}.json") for nome, url in urls().items()]
+    return [rede.baixar(url, cache_do_recorte(FONTE) / f"{nome}.json") for nome, url in urls().items()]
 
 
 def carregar(con) -> int:
     linhas = [l for nome in urls() for l in parse_sidra(
-        json.loads((cache_do_dia(FONTE) / f"{nome}.json").read_text(encoding="utf-8")))]
+        json.loads((cache_do_recorte(FONTE) / f"{nome}.json").read_text(encoding="utf-8")))]
     return substituir_fatos(con, FONTE, normalizar(linhas))
