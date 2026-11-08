@@ -10,7 +10,7 @@ export function tipoVisualizacao(d: Indicador | null): Visualizacao {
 }
 
 // Chave da fonte em meta.json (tabela `cargas` do pipeline) para cada indicador.
-const DERIVADOS = new Set(["populacao_var_5a", "pib_per_capita", "caged_saldo_12m", "caged_saldo_12m_por_mil_hab"]);
+const DERIVADOS = new Set(["populacao_var_censo", "pib_per_capita", "caged_saldo_12m", "caged_saldo_12m_por_mil_hab"]);
 
 export function fonteDoIndicador(id: string): string {
   if (DERIVADOS.has(id)) return "derivado";

@@ -18,3 +18,8 @@ def test_normalizar_censo_prevalece():
     r = normalizar(est_2022, CENSO)
     poa_2022 = [t for t in r if t[0] == "4314902" and t[2] == "2022"]
     assert len(poa_2022) == 1 and poa_2022[0][4] == 1332845.0
+
+
+def test_estimativas_anteriores_ao_censo_2022_descartadas():
+    antigas = [{"Município (Código)": "4314902", "Ano (Código)": "2021", "Valor": 1492530.0}]
+    assert normalizar(antigas, []) == []

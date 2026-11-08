@@ -3,16 +3,16 @@
   nome: População
   unidade: pessoas
   fonte: IBGE — Estimativas de População e Censo 2022
-  descricao: População residente estimada pelo IBGE; em 2022, a contagem do Censo.
+  descricao: População residente — contagem do Censo 2022 e estimativas do IBGE nos anos seguintes.
   tema: populacao
   relativo: false
   ranking: true
   motivo_ausencia: O IBGE não publicou população para este município no período.
-- id: populacao_var_5a
-  nome: Variação da população em 5 anos
+- id: populacao_var_censo
+  nome: Variação da população desde o Censo 2022
   unidade: "%"
   fonte: Calculado a partir do IBGE
-  descricao: Variação percentual da população entre o ano mais recente e cinco anos antes.
+  descricao: Variação percentual entre a estimativa mais recente e a contagem do Censo 2022. Estimativas anteriores ao Censo estão em outra base e não são comparáveis.
   tema: populacao
   relativo: true
   ranking: true

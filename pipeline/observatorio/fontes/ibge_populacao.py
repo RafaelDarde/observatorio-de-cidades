@@ -10,6 +10,9 @@ from observatorio.sidra import parse_sidra, url_sidra
 TABELA_ESTIMATIVAS, VAR_ESTIMATIVAS = 6579, 9324
 TABELA_CENSO, VAR_CENSO = 4709, 93
 FONTE = "ibge_populacao"
+# Estimativas anteriores ao Censo 2022 estão em outra base (o Censo revisou a população de muitos
+# municípios) e criariam saltos falsos na série; a série começa no Censo.
+ANO_BASE = 2022
 
 ARQUIVOS = {
     "estimativas": (TABELA_ESTIMATIVAS, VAR_ESTIMATIVAS, "last 10", "n6/all"),
@@ -25,7 +28,8 @@ def _por_chave(linhas: list[dict]) -> dict[tuple[str, str], float]:
 
 def normalizar(linhas_estimativas: list[dict], linhas_censo: list[dict]) -> list[tuple]:
     valores = _por_chave(linhas_estimativas) | _por_chave(linhas_censo)
-    return [(cod, "populacao", ano, None, v) for (cod, ano), v in sorted(valores.items())]
+    return [(cod, "populacao", ano, None, v) for (cod, ano), v in sorted(valores.items())
+            if int(ano) >= ANO_BASE]
 
 
 def _caminho(nome: str) -> Path:

@@ -31,7 +31,7 @@ import { fonteDoIndicador } from "./visualizacao";
 describe("fonteDoIndicador", () => {
   it.each([
     ["populacao", "ibge_populacao"],
-    ["populacao_var_5a", "derivado"],
+    ["populacao_var_censo", "derivado"],
     ["pib", "ibge_pib"],
     ["vab_agro", "ibge_pib"],
     ["pib_per_capita", "derivado"],

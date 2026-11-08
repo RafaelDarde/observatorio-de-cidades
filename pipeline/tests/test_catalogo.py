@@ -3,7 +3,7 @@ import pytest
 from observatorio.catalogo import carregar_catalogo
 
 COM_RANKING = {
-    "populacao", "populacao_var_5a", "pib", "pib_per_capita", "cempre_pessoal_ocupado",
+    "populacao", "populacao_var_censo", "pib", "pib_per_capita", "cempre_pessoal_ocupado",
     "cempre_salario_medio_sm", "caged_saldo_12m", "caged_saldo_12m_por_mil_hab",
 }
 

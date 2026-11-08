@@ -7,11 +7,11 @@ with pop as (
     where indicador = 'populacao' and recorte is null
 ),
 ultimo_ano as (select max(ano) as ano from pop),
-var5a as (
-    select a.cod_municipio, 'populacao_var_5a' as indicador, cast(a.ano as varchar) as periodo,
+var_censo as (
+    select a.cod_municipio, 'populacao_var_censo' as indicador, cast(a.ano as varchar) as periodo,
            (a.valor / b.valor - 1) * 100 as valor
     from pop a join ultimo_ano u on a.ano = u.ano
-    join pop b on b.cod_municipio = a.cod_municipio and b.ano = a.ano - 5
+    join pop b on b.cod_municipio = a.cod_municipio and b.ano = 2022
 ),
 -- População do ano do PIB; sem estimativa naquele ano (ex.: 2023), média dos anos vizinhos.
 pib as (
@@ -46,7 +46,7 @@ por_mil as (
     from saldo12 s join pop p on p.cod_municipio = s.cod_municipio
     join ultimo_ano u on p.ano = u.ano
 )
-select cod_municipio, indicador, periodo, null as recorte, valor from var5a
+select cod_municipio, indicador, periodo, null as recorte, valor from var_censo
 union all select cod_municipio, indicador, periodo, null, valor from per_capita
 union all select cod_municipio, indicador, periodo, null, valor from saldo12
 union all select cod_municipio, indicador, periodo, null, valor from por_mil

@@ -29,12 +29,12 @@ def _v(con, cod, ind):
     return r
 
 
-def test_var_5a(con):
-    assert _v(con, POA, "populacao_var_5a") == [("2025", pytest.approx(10.0))]
+def test_var_desde_censo(con):
+    assert _v(con, POA, "populacao_var_censo") == [("2025", pytest.approx((1100 / 1040 - 1) * 100))]
 
 
-def test_var_5a_sem_ano_base_omite(con):
-    assert _v(con, ACE, "populacao_var_5a") == []
+def test_var_desde_censo_sem_ano_base_omite(con):
+    assert _v(con, ACE, "populacao_var_censo") == []
 
 
 def test_saldo_12m_soma_12_meses(con):
