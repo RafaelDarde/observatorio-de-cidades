@@ -1,0 +1,10 @@
+_cache/
+_scratch/
+*.duckdb
+*.duckdb.wal
+.env
+.venv/
+__pycache__/
+node_modules/
+.next/
+out/
