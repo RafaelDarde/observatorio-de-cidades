@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://observatorio-de-cidades/dados.schema.json",
+  "title": "DadosObservatorio",
+  "description": "Contrato entre o pipeline (gera) e o site (consome). Cada $def descreve um tipo de arquivo em web/public/dados/.",
+  "$defs": {
+    "unidade": {
+      "title": "Unidade",
+      "enum": ["pessoas", "R$", "R$ mil", "salarios_minimos", "empregos", "%", "empregos_por_mil_hab", "unidades"]
+    },
+    "tema": {
+      "title": "Tema",
+      "enum": ["populacao", "economia", "empresas", "emprego"]
+    },
+    "itemCatalogo": {
+      "title": "ItemCatalogo",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "nome", "unidade", "fonte", "descricao", "tema", "relativo", "ranking", "motivo_ausencia", "periodo_min", "periodo_max"],
+      "properties": {
+        "id": { "type": "string" },
+        "nome": { "type": "string" },
+        "unidade": { "$ref": "#/$defs/unidade" },
+        "fonte": { "type": "string" },
+        "descricao": { "type": "string" },
+        "tema": { "$ref": "#/$defs/tema" },
+        "relativo": { "type": "boolean" },
+        "ranking": { "type": "boolean" },
+        "motivo_ausencia": { "type": "string" },
+        "periodo_min": { "type": ["string", "null"] },
+        "periodo_max": { "type": ["string", "null"] }
+      }
+    },
+    "catalogo": {
+      "title": "Catalogo",
+      "type": "array",
+      "items": { "$ref": "#/$defs/itemCatalogo" }
+    },
+    "itemIndice": {
+      "title": "ItemIndice",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cod", "nome", "uf"],
+      "properties": {
+        "cod": { "type": "string", "pattern": "^[0-9]{7}$" },
+        "nome": { "type": "string" },
+        "uf": { "type": "string", "pattern": "^[A-Z]{2}$" }
+      }
+    },
+    "indiceMunicipios": {
+      "title": "IndiceMunicipios",
+      "type": "array",
+      "items": { "$ref": "#/$defs/itemIndice" }
+    },
+    "ponto": {
+      "title": "Ponto",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["periodo", "valor"],
+      "properties": {
+        "periodo": { "type": "string", "pattern": "^[0-9]{4}(-[0-9]{2})?$" },
+        "valor": { "type": "number" }
+      }
+    },
+    "posicao": {
+      "title": "Posicao",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["brasil", "uf"],
+      "properties": {
+        "brasil": { "type": "integer", "minimum": 1 },
+        "uf": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "valorRecorte": {
+      "title": "ValorRecorte",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recorte", "valor"],
+      "properties": {
+        "recorte": { "type": "string" },
+        "valor": { "type": "number" }
+      }
+    },
+    "indicador": {
+      "title": "Indicador",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serie", "ultimo", "posicao"],
+      "properties": {
+        "serie": { "type": "array", "items": { "$ref": "#/$defs/ponto" } },
+        "ultimo": { "oneOf": [{ "$ref": "#/$defs/ponto" }, { "type": "null" }] },
+        "posicao": { "oneOf": [{ "$ref": "#/$defs/posicao" }, { "type": "null" }] },
+        "por_recorte": { "type": "array", "items": { "$ref": "#/$defs/valorRecorte" } }
+      }
+    },
+    "perfil": {
+      "title": "Perfil",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cod", "nome", "uf", "regiao", "indicadores"],
+      "properties": {
+        "cod": { "type": "string", "pattern": "^[0-9]{7}$" },
+        "nome": { "type": "string" },
+        "uf": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "regiao": { "type": "string" },
+        "indicadores": {
+          "type": "object",
+          "additionalProperties": { "oneOf": [{ "$ref": "#/$defs/indicador" }, { "type": "null" }] }
+        }
+      }
+    },
+    "itemRanking": {
+      "title": "ItemRanking",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cod", "nome", "uf", "valor", "posicao"],
+      "properties": {
+        "cod": { "type": "string", "pattern": "^[0-9]{7}$" },
+        "nome": { "type": "string" },
+        "uf": { "type": "string" },
+        "valor": { "type": "number" },
+        "posicao": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "ranking": {
+      "title": "Ranking",
+      "type": "array",
+      "items": { "$ref": "#/$defs/itemRanking" }
+    },
+    "cargaFonte": {
+      "title": "CargaFonte",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["carregado_em", "periodo_min", "periodo_max"],
+      "properties": {
+        "carregado_em": { "type": "string" },
+        "periodo_min": { "type": ["string", "null"] },
+        "periodo_max": { "type": ["string", "null"] }
+      }
+    },
+    "meta": {
+      "title": "Meta",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gerado_em", "fontes"],
+      "properties": {
+        "gerado_em": { "type": "string" },
+        "fontes": { "type": "object", "additionalProperties": { "$ref": "#/$defs/cargaFonte" } }
+      }
+    }
+  }
+}
