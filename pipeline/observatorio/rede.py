@@ -1,3 +1,4 @@
+import gzip
 import json
 import logging
 import shutil
@@ -7,11 +8,20 @@ from pathlib import Path
 from typing import Any
 
 log = logging.getLogger(__name__)
+GZIP = bytes([0x1F, 0x8B])  # assinatura de arquivo gzip
 
 
 def _abrir_padrao(url: str, timeout: int):
     req = urllib.request.Request(url, headers={"User-Agent": "observatorio-de-cidades/0.1"})
     return urllib.request.urlopen(req, timeout=timeout)
+
+
+def _descomprimir_gzip(arquivo: Path) -> None:
+    # Algumas APIs do IBGE devolvem o corpo em gzip sem declarar Content-Encoding.
+    with open(arquivo, "rb") as f:
+        assinatura = f.read(2)
+    if assinatura == GZIP:
+        arquivo.write_bytes(gzip.decompress(arquivo.read_bytes()))
 
 
 def baixar(url: str, destino: Path, *, abrir=_abrir_padrao, dormir=time.sleep,
@@ -25,6 +35,7 @@ def baixar(url: str, destino: Path, *, abrir=_abrir_padrao, dormir=time.sleep,
         try:
             with abrir(url, timeout=timeout) as resp, open(parcial, "wb") as f:
                 shutil.copyfileobj(resp, f)
+            _descomprimir_gzip(parcial)
             parcial.replace(destino)
             return destino
         except OSError as erro:
