@@ -108,3 +108,29 @@ def test_falha_de_schema_nao_altera_saida(con, catalogo, tmp_path):
     with pytest.raises(jsonschema.ValidationError):
         exportar(con, ruim, saida)
     assert [p.name for p in saida.iterdir()] == ["antigo.json"]
+
+
+def test_falha_na_troca_restaura_saida_anterior(con, catalogo, tmp_path, monkeypatch):
+    import pathlib
+    saida = tmp_path / "dados"
+    saida.mkdir()
+    (saida / "antigo.json").write_text("{}", encoding="utf-8")
+    original = pathlib.Path.rename
+
+    def rename(self, alvo):
+        if self.name == "dados.novo":
+            raise PermissionError("arquivo em uso")
+        return original(self, alvo)
+
+    monkeypatch.setattr(pathlib.Path, "rename", rename)
+    with pytest.raises(PermissionError):
+        exportar(con, catalogo, saida)
+    assert [p.name for p in saida.iterdir()] == ["antigo.json"]
+
+
+def test_sobra_de_antigo_de_execucao_anterior_nao_impede_exportar(con, catalogo, tmp_path):
+    saida = tmp_path / "dados"
+    (tmp_path / "dados.antigo").mkdir()
+    (tmp_path / "dados.antigo" / "lixo.json").write_text("{}", encoding="utf-8")
+    exportar(con, catalogo, saida)
+    assert (saida / "catalogo.json").exists() and not (tmp_path / "dados.antigo").exists()

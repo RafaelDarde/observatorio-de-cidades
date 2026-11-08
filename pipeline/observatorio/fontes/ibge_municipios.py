@@ -27,7 +27,10 @@ CACHE_FONTE = CACHE_DIR / "ibge_municipios"
 
 def _ler() -> list[dict]:
     # O cache mais recente, mesmo de outro dia (ex.: `atualizar --fonte caged` não baixa municípios).
-    arquivo = max(CACHE_FONTE.glob("*/municipios.json"))
+    arquivos = sorted(CACHE_FONTE.glob("*/municipios.json"))
+    if not arquivos:
+        raise FileNotFoundError(f"lista de municípios ainda não baixada (nada em {CACHE_FONTE})")
+    arquivo = arquivos[-1]
     return json.loads(arquivo.read_text(encoding="utf-8"))
 
 

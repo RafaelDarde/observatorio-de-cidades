@@ -39,7 +39,8 @@ def test_var_desde_censo_sem_ano_base_omite(con):
 
 def test_saldo_12m_soma_12_meses(con):
     assert _v(con, POA, "caged_saldo_12m") == [("2026-02", 120.0)]
-    assert _v(con, ACE, "caged_saldo_12m") == []  # só 5 meses
+    # mês sem linha no CAGED = nenhuma movimentação (zero), não dado ausente
+    assert _v(con, ACE, "caged_saldo_12m") == [("2026-02", -5.0)]
 
 
 def test_saldo_por_mil(con):

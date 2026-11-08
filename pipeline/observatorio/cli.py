@@ -35,6 +35,9 @@ def atualizar(con, fontes: dict = FONTES, so: str | None = None) -> int:
             log.info("%s: %d linhas carregadas", nome, linhas)
         except Exception:
             log.exception("%s: falhou; mantida a última carga boa", nome)
+        if nome == "ibge_municipios" and con.execute("select count(*) from municipios").fetchone()[0] == 0:
+            log.error("sem lista de municípios: as outras fontes dependem dela; atualização interrompida")
+            return 1
 
     calcular_derivados(con)
     erros = validar(con, fontes["ibge_municipios"].total_api())

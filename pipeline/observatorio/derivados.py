@@ -38,7 +38,7 @@ saldo12 as (
     select s.cod_municipio, 'caged_saldo_12m' as indicador, (select m from ultimo_mes) as periodo,
            sum(s.valor) as valor
     from saldo s join janela j using (periodo)
-    group by s.cod_municipio having count(*) = 12
+    group by s.cod_municipio  -- mês sem linha no CAGED = zero movimentação
 ),
 por_mil as (
     select s.cod_municipio, 'caged_saldo_12m_por_mil_hab' as indicador, s.periodo,
@@ -54,6 +54,5 @@ union all select cod_municipio, indicador, periodo, null, valor from por_mil
 
 
 def calcular_derivados(con) -> int:
-    con.execute("delete from fatos where fonte = 'derivado'")
     linhas = con.execute(_SQL).fetchall()
-    return substituir_fatos(con, "derivado", linhas)
+    return substituir_fatos(con, "derivado", linhas, verificar=False)

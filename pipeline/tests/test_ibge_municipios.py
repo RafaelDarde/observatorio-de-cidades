@@ -25,3 +25,11 @@ def test_total_api_usa_cache_mais_recente_mesmo_de_outro_dia(tmp_path, monkeypat
         (tmp_path / dia).mkdir()
         (tmp_path / dia / "municipios.json").write_text(json.dumps(DADOS[:n]), encoding="utf-8")
     assert ibge_municipios.total_api() == 3
+
+
+def test_total_api_sem_cache_da_erro_claro(tmp_path, monkeypatch):
+    import pytest
+    from observatorio.fontes import ibge_municipios
+    monkeypatch.setattr(ibge_municipios, "CACHE_FONTE", tmp_path)
+    with pytest.raises(FileNotFoundError, match="municípios"):
+        ibge_municipios.total_api()

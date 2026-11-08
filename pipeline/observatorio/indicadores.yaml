@@ -129,11 +129,11 @@
   nome: Saldo de empregos em 12 meses
   unidade: empregos
   fonte: Calculado a partir do MTE — Novo CAGED
-  descricao: Soma do saldo mensal dos últimos 12 meses. Usa apenas movimentações declaradas no prazo (CAGEDMOV).
+  descricao: Soma do saldo mensal dos últimos 12 meses (mês sem movimentação conta como zero). Usa apenas movimentações declaradas no prazo (CAGEDMOV).
   tema: emprego
   relativo: false
   ranking: true
-  motivo_ausencia: O município não tem os 12 meses de movimentação no CAGED.
+  motivo_ausencia: O município não teve nenhuma movimentação registrada no CAGED nos últimos 12 meses.
 - id: caged_saldo_12m_por_mil_hab
   nome: Saldo de empregos em 12 meses por mil habitantes
   unidade: empregos_por_mil_hab

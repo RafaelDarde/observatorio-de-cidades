@@ -76,3 +76,12 @@ def test_so_roda_fonte_pedida(ambiente):
 def test_fonte_inexistente_retorna_2(ambiente):
     con, _ = ambiente
     assert cli.atualizar(con, {"ibge_municipios": _municipios_falsa()}, so="xyz") == 2
+
+
+def test_sem_municipios_para_cedo_com_erro_claro(ambiente):
+    con, saida = ambiente
+    m = _municipios_falsa()
+    m.baixar = lambda: (_ for _ in ()).throw(URLError("fora do ar"))
+    pop = FonteFalsa("pop", [("4314902", "populacao", "2025", None, 10.0)])
+    assert cli.atualizar(con, {"ibge_municipios": m, "pop": pop}) == 1
+    assert pop.chamadas == [] and not saida.exists()

@@ -17,6 +17,14 @@ create table if not exists referencias(indicador varchar, periodo varchar, valor
 
 Fato = tuple[str, str, str, str | None, float]
 
+# Uma carga nova com menos que esta fração das linhas da anterior é tratada como falha da fonte
+# (ex.: API respondeu 200 com corpo vazio ou truncado) e não substitui a última carga boa.
+FRACAO_MINIMA = 0.5
+
+
+class CargaSuspeita(Exception):
+    pass
+
 
 def conectar(caminho: str | Path = DB_PATH) -> duckdb.DuckDBPyConnection:
     con = duckdb.connect(str(caminho))
@@ -25,7 +33,13 @@ def conectar(caminho: str | Path = DB_PATH) -> duckdb.DuckDBPyConnection:
     return con
 
 
-def substituir_fatos(con: duckdb.DuckDBPyConnection, fonte: str, linhas: list[Fato]) -> int:
+def substituir_fatos(con: duckdb.DuckDBPyConnection, fonte: str, linhas: list[Fato],
+                     verificar: bool = True) -> int:
+    """verificar=False para dados calculados aqui (derivados), que podem legitimamente ser vazios."""
+    anterior = con.execute("select linhas from cargas where fonte = ?", [fonte]).fetchone()
+    if verificar and (not linhas or (anterior and len(linhas) < anterior[0] * FRACAO_MINIMA)):
+        raise CargaSuspeita(f"{fonte}: carga nova com {len(linhas)} linhas "
+                            f"(anterior: {anterior[0] if anterior else 0}); mantida a carga anterior")
     con.execute("begin")
     try:
         con.execute("delete from fatos where fonte = ?", [fonte])

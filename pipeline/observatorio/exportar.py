@@ -148,8 +148,16 @@ def exportar(con, catalogo: dict[str, Indicador], saida: Path = SAIDA_DIR) -> No
         raise
 
     antigo = saida.with_name(saida.name + ".antigo")
-    shutil.rmtree(antigo, ignore_errors=True)
-    if saida.exists():
+    if antigo.exists():
+        shutil.rmtree(antigo)  # sobra de execução anterior; falha aqui é melhor que trocar pela metade
+    tinha_saida = saida.exists()
+    if tinha_saida:
         saida.rename(antigo)
-    tmp.rename(saida)
+    try:
+        tmp.rename(saida)
+    except Exception:
+        if tinha_saida:
+            antigo.rename(saida)
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise
     shutil.rmtree(antigo, ignore_errors=True)
