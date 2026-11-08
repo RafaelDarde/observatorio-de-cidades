@@ -68,13 +68,13 @@ export function GraficoComparacao({
   series,
   unidade,
 }: {
-  series: { nome: string; serie: Ponto[] }[];
+  series: { chave: string; nome: string; serie: Ponto[] }[];
   unidade: string;
 }) {
   const periodos = [...new Set(series.flatMap((s) => s.serie.map((p) => p.periodo)))].sort();
   const dados = periodos.map((periodo) => {
     const linha: Record<string, string | number | null> = { periodo };
-    for (const s of series) linha[s.nome] = s.serie.find((p) => p.periodo === periodo)?.valor ?? null;
+    for (const s of series) linha[s.chave] = s.serie.find((p) => p.periodo === periodo)?.valor ?? null;
     return linha;
   });
   return (
@@ -88,7 +88,7 @@ export function GraficoComparacao({
         <Tooltip formatter={(v) => formatarValor(Number(v), unidade)} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         {series.map((s, i) => (
-          <Line key={s.nome} type="monotone" dataKey={s.nome} stroke={CORES[i % CORES.length]}
+          <Line key={s.chave} name={s.nome} type="monotone" dataKey={s.chave} stroke={CORES[i % CORES.length]}
                 strokeWidth={2} dot={periodos.length <= 12} connectNulls isAnimationActive={false} />
         ))}
       </LineChart>

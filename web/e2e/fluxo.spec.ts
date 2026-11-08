@@ -24,3 +24,12 @@ test("município inexistente mostra 404", async ({ page }) => {
   await page.goto("/municipio/0000000-x");
   await expect(page.getByText("Município não encontrado")).toBeVisible();
 });
+
+test("comparação de municípios homônimos e busca sem apóstrofo", async ({ page }) => {
+  await page.goto("/comparar?c=2201903,4302303");
+  await expect(page.locator("thead th")).toHaveText(["Indicador", "Bom Jesus – PI", "Bom Jesus – RS"]);
+  const busca = page.getByRole("combobox", { name: "Buscar município" });
+  await busca.click();
+  await busca.fill("santana do livramento");
+  await expect(page.getByRole("option").first()).toContainText("Sant'Ana do Livramento");
+});

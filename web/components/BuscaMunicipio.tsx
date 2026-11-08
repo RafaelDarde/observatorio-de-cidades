@@ -3,17 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { buscarMunicipios } from "@/lib/buscar";
+import { carregarIndice } from "@/lib/carregar";
 import { idMunicipio } from "@/lib/normalizar";
 import type { IndiceMunicipios } from "@/lib/tipos";
 
 type Item = IndiceMunicipios[number];
-
-// O índice (~5.570 municípios) é baixado uma vez, no primeiro foco, e reaproveitado.
-let indiceCache: Promise<IndiceMunicipios> | null = null;
-function carregarIndice(): Promise<IndiceMunicipios> {
-  indiceCache ??= fetch("/dados/municipios.json").then((r) => r.json());
-  return indiceCache;
-}
 
 export function BuscaMunicipio({
   aoSelecionar,
@@ -32,6 +26,7 @@ export function BuscaMunicipio({
   const [consulta, setConsulta] = useState("");
   const [ativo, setAtivo] = useState(0);
   const [aberto, setAberto] = useState(false);
+  const [falhou, setFalhou] = useState(false);
   const input = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -74,7 +69,11 @@ export function BuscaMunicipio({
         disabled={desativado}
         placeholder={placeholder}
         value={consulta}
-        onFocus={() => carregarIndice().then(setIndice)}
+        onFocus={() =>
+          carregarIndice()
+            .then((i) => { setIndice(i); setFalhou(false); })
+            .catch(() => setFalhou(true))
+        }
         onChange={(e) => {
           setConsulta(e.target.value);
           setAtivo(0);
@@ -84,6 +83,11 @@ export function BuscaMunicipio({
         onBlur={() => setTimeout(() => setAberto(false), 150)}
         className="w-full rounded-lg border border-linha bg-cartao px-4 py-3 text-base outline-none focus:border-destaque focus:ring-2 focus:ring-destaque/20 disabled:opacity-50"
       />
+      {falhou && (
+        <p role="alert" className="mt-1 text-xs text-negativo">
+          Não foi possível carregar a lista de municípios. Clique na busca para tentar de novo.
+        </p>
+      )}
       {aberto && resultados.length > 0 && (
         <ul
           id={listaId}

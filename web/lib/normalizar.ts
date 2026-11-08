@@ -1,7 +1,12 @@
 // Normalização de texto para busca e geração de slugs de município.
 
 export function normalizar(texto: string): string {
-  return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  return texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+}
+
+// Para busca: ignora apóstrofo e trata hífen como espaço ("santana" acha "Sant'Ana").
+export function normalizarBusca(texto: string): string {
+  return normalizar(texto).replace(/['’]/g, "").replace(/-/g, " ").replace(/\s+/g, " ");
 }
 
 export function slug(nome: string): string {

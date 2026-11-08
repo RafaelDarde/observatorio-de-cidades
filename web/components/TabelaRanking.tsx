@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { buscarJson } from "@/lib/carregar";
 import { formatarValor } from "@/lib/formatar";
 import { idMunicipio } from "@/lib/normalizar";
 import { filtrarRanking } from "@/lib/rankings";
@@ -15,11 +16,22 @@ export function TabelaRanking({ indicador, unidade }: { indicador: string; unida
   const [uf, setUf] = useState<string | null>(null);
   const [ordem, setOrdem] = useState<"desc" | "asc">("desc");
   const [pagina, setPagina] = useState(1);
+  const [falhou, setFalhou] = useState(false);
+  const [tentativa, setTentativa] = useState(0);
 
   useEffect(() => {
-    fetch(`/dados/rankings/${indicador}.json`).then((r) => r.json()).then(setLinhas);
-  }, [indicador]);
+    buscarJson<Ranking>(`/dados/rankings/${indicador}.json`)
+      .then((l) => { setLinhas(l); setFalhou(false); })
+      .catch(() => setFalhou(true));
+  }, [indicador, tentativa]);
 
+  if (falhou)
+    return (
+      <p role="alert" className="text-sm text-negativo">
+        Não foi possível carregar o ranking.{" "}
+        <button type="button" onClick={() => setTentativa((t) => t + 1)} className="underline">Tentar de novo</button>
+      </p>
+    );
   if (!linhas) return <p className="text-suave">Carregando…</p>;
   const r = filtrarRanking(linhas, { uf, ordem, pagina });
 

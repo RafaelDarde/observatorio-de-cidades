@@ -28,3 +28,18 @@ describe("montarUrl", () => {
     expect(montarUrl([])).toBe("/comparar");
   });
 });
+
+import { seriesComparacao } from "./comparar";
+
+describe("seriesComparacao", () => {
+  it("municípios homônimos têm chaves e rótulos distintos", () => {
+    const perfil = (cod: string, uf: string) => ({
+      cod, nome: "Bom Jesus", uf, regiao: "x",
+      indicadores: { pib: { serie: [{ periodo: "2023", valor: Number(cod) }], ultimo: null, posicao: null } },
+    });
+    const s = seriesComparacao([perfil("2201903", "PI"), perfil("4302352", "RS")], "pib");
+    expect(s.map((x) => x.chave)).toEqual(["2201903", "4302352"]);
+    expect(s.map((x) => x.nome)).toEqual(["Bom Jesus – PI", "Bom Jesus – RS"]);
+    expect(s[1].serie[0].valor).toBe(4302352);
+  });
+});

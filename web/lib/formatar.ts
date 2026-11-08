@@ -8,18 +8,27 @@ function inteiro(v: number): string {
   return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-// Valor absoluto em forma compacta: 9.876 | 52,4 mil | 1,3 mi | 2,5 bi
+// Valor absoluto em forma compacta: 9.876 | 52,4 mil | 1,3 mi | 2,5 bi.
+// As faixas comparam com o valor já arredondado (999.999 vira "1,0 mi", não "1000,0 mil").
 function compacto(abs: number): string {
-  if (abs >= 1e9) return `${decimal1(abs / 1e9)} bi`;
-  if (abs >= 1e6) return `${decimal1(abs / 1e6)} mi`;
-  if (abs >= 1e4) return `${decimal1(abs / 1e3)} mil`;
+  if (abs >= 999_950_000) return `${decimal1(abs / 1e9)} bi`;
+  if (abs >= 999_950) return `${decimal1(abs / 1e6)} mi`;
+  if (abs >= 9_999.5) return `${decimal1(abs / 1e3)} mil`;
   return inteiro(abs);
+}
+
+const DECIMAIS = new Set(["salarios_minimos", "%", "empregos_por_mil_hab"]);
+
+// Valores que arredondam para zero não levam sinal negativo ("-0,0").
+function ehZero(abs: number, unidade: string): boolean {
+  return DECIMAIS.has(unidade) ? abs < 0.05 : Math.round(abs) === 0;
 }
 
 export function formatarValor(valor: number | null | undefined, unidade: string): string {
   if (valor === null || valor === undefined || Number.isNaN(valor)) return "Sem dado";
-  const sinal = valor < 0 ? "-" : "";
   const abs = Math.abs(valor);
+  const negativo = valor < 0 && !ehZero(abs, unidade);
+  const sinal = negativo ? "-" : "";
   switch (unidade) {
     case "R$":
       return `${sinal}R$ ${compacto(abs)}`;
@@ -28,7 +37,7 @@ export function formatarValor(valor: number | null | undefined, unidade: string)
     case "salarios_minimos":
       return `${sinal}${decimal1(abs)} SM`;
     case "%":
-      return `${valor < 0 ? "-" : "+"}${decimal1(abs)}%`;
+      return `${negativo ? "-" : "+"}${decimal1(abs)}%`;
     case "empregos_por_mil_hab":
       return `${sinal}${decimal1(abs)}`;
     default:

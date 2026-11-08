@@ -30,3 +30,21 @@ describe("buscarMunicipios", () => {
     expect(buscarMunicipios(idx, "bonito").map((m) => m.uf)).toEqual(["BA", "PA"]);
   });
 });
+
+describe("busca tolerante a apóstrofo e hífen", () => {
+  const idx = [
+    { cod: "4317103", nome: "Sant'Ana do Livramento", uf: "RS" },
+    { cod: "2706307", nome: "Olho d'Água das Flores", uf: "AL" },
+    { cod: "2708006", nome: "Pingo-d'Água", uf: "MG" },
+  ];
+  it.each([
+    ["santana do livramento", "4317103"],
+    ["sant'ana", "4317103"],
+    ["olho dagua", "2706307"],
+    ["olho d'agua", "2706307"],
+    ["pingo dagua", "2708006"],
+    ["pingo-d'agua", "2708006"],
+  ])("%s", (q, cod) => {
+    expect(buscarMunicipios(idx, q)[0]?.cod).toBe(cod);
+  });
+});

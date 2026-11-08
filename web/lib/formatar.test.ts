@@ -22,3 +22,16 @@ describe("formatarValor", () => {
     expect(formatarValor(valor, unidade)).toBe(esperado);
   });
 });
+
+describe("arredondamento na fronteira das faixas", () => {
+  it.each([
+    [999999, "pessoas", "1,0 mi"],
+    [9999.7, "pessoas", "10,0 mil"],
+    [999_960_000, "R$", "R$ 1,0 bi"],
+    [-0.04, "empregos_por_mil_hab", "0,0"],
+    [-0.04, "%", "+0,0%"],
+    [-0.4, "empregos", "0"],
+  ] as const)("%s %s -> %s", (valor, unidade, esperado) => {
+    expect(formatarValor(valor, unidade)).toBe(esperado);
+  });
+});
