@@ -1,11 +1,10 @@
 # Handoff: índice de violência v2
 
-**Status (2026-11-08, noite): v2 aprovada pelo usuário e implementada na branch `violencia`** (escala 0–100
-maior = mais seguro, ajuste de veraneio como segunda nota, histórico desde 2022, unidade "por 100 mil hab." e
-"≈ 1 a cada X moradores" nas taxas). Nota mensal de 2022-12 a 2026-09. Implementação em
-`pipeline/observatorio/seguranca.py`, `fontes/ssp_rs.py` (agora mensal + estupro) e `web/components/Termometro.tsx`.
-Detalhe extra: o ajuste de veraneio só desconta (nunca piora a nota). Próximo passo: revisão do usuário na prévia
-e merge em `main`. O texto abaixo é o registro da proposta.
+**CONCLUÍDO em 2026-11-08.** v2 publicada em produção (merge de `violencia` em `main`, commit 96d4136).
+Escala 0–100 (maior = mais seguro, 50 = RS), ajuste de veraneio como segunda nota (só desconta), histórico
+desde 2022, unidade "por 100 mil hab." nas taxas. Implementação em `pipeline/observatorio/seguranca.py`,
+`fontes/ssp_rs.py` e `web/components/Termometro.tsx`; metodologia pública em `web/app/sobre/page.tsx`.
+Nada pendente. O texto abaixo é só registro histórico da proposta.
 
 Data: 2026-11-08. Branch: `violencia` (já no GitHub; prévia na Vercel em
 https://observatorio-litoral-gaucho-git-violencia-rd-solucoes.vercel.app — exige login na Vercel).

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Toda sessão nova, antes de qualquer tarefa, deve:
 
 1. Ler este arquivo inteiro.
-2. Ler os arquivos de passagem em `docs/*-handoff.md` (estado do trabalho em andamento, decisões já tomadas e pendentes). Hoje: `docs/violencia-v2-handoff.md`.
+2. Ler os arquivos de passagem em `docs/*-handoff.md` que não estejam marcados como CONCLUÍDO (estado do trabalho em andamento, decisões já tomadas e pendentes). Hoje: nenhum em andamento.
 3. Conferir `git status` e `git branch` para saber em que branch está e o que não foi commitado.
 4. Ao encerrar uma sessão com trabalho pela metade, atualizar (ou criar) o `docs/<assunto>-handoff.md` correspondente e citá-lo no item 2.
 
