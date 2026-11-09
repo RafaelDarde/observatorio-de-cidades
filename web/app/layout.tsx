@@ -11,7 +11,7 @@ const corpo = Hanken_Grotesk({ variable: "--font-corpo", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Observatório Litoral Gaúcho",
-  description: "Dados públicos de população, economia, empresas e emprego dos municípios do litoral do Rio Grande do Sul.",
+  description: "Dados públicos de população, economia, empresas, emprego e segurança dos municípios do litoral do Rio Grande do Sul.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="flex min-h-screen flex-col lg:pl-64">
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-8 sm:py-9">{children}</main>
           <footer className="px-4 pb-8 pt-2 text-center text-xs text-suave">
-            Dados públicos: IBGE e Ministério do Trabalho (Novo CAGED). Projeto de estudo.
+            Dados públicos: IBGE, Ministério do Trabalho (Novo CAGED) e Secretaria da Segurança Pública do RS. Projeto de estudo.
           </footer>
         </div>
       </body>

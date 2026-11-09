@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Cartao, Indicador } from "@/components/Indicador";
 import { MiniMapaCidade } from "@/components/MiniMapaCidade";
+import { Termometro } from "@/components/Termometro";
 import { lerCatalogo, lerIndice, lerMeta, lerPerfil } from "@/lib/dados";
 import { codDeId, idMunicipio } from "@/lib/normalizar";
 import type { Tema } from "@/lib/tipos";
@@ -10,12 +11,14 @@ import { fonteDoIndicador } from "@/lib/visualizacao";
 
 export const dynamicParams = false;
 
+const INDICE_VIOLENCIA = "seg_indice_violencia";
 const CARTOES = ["populacao", "pib_per_capita", "cempre_pessoal_ocupado", "caged_saldo_12m"];
 const TEMAS: { id: Tema; titulo: string }[] = [
   { id: "populacao", titulo: "População" },
   { id: "economia", titulo: "Economia" },
   { id: "empresas", titulo: "Empresas" },
   { id: "emprego", titulo: "Emprego formal" },
+  { id: "seguranca", titulo: "Segurança" },
 ];
 
 export function generateStaticParams() {
@@ -86,9 +89,10 @@ export default async function PaginaMunicipio({ params }: PageProps<"/municipio/
       {TEMAS.map((tema) => (
         <section key={tema.id} id={tema.id} className="scroll-mt-20 space-y-4 lg:scroll-mt-6">
           <h2 className="text-2xl font-semibold">{tema.titulo}</h2>
+          {tema.id === "seguranca" && <Termometro dados={perfil.indicadores[INDICE_VIOLENCIA] ?? null} />}
           <div className="grid gap-4 md:grid-cols-2">
             {catalogo
-              .filter((c) => c.tema === tema.id)
+              .filter((c) => c.tema === tema.id && c.id !== INDICE_VIOLENCIA)
               .map((c) => (
                 <Indicador
                   key={c.id}

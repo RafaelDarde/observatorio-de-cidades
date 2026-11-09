@@ -85,7 +85,7 @@ function Conteudo({ cidades, fechar, atualizadoEm }: { cidades: Cidade[]; fechar
       </div>
 
       <p className="border-t border-white/10 px-5 py-4 text-xs leading-relaxed text-white/55">
-        Dados do IBGE e do Novo CAGED.
+        Dados do IBGE, do Novo CAGED e da SSP-RS.
         <br />
         Atualizado em {atualizadoEm}.
       </p>
