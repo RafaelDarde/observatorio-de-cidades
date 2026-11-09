@@ -11,7 +11,8 @@ import { fonteDoIndicador } from "@/lib/visualizacao";
 
 export const dynamicParams = false;
 
-const INDICE_VIOLENCIA = "seg_indice_violencia";
+// Mostradas no termômetro, não na grade de indicadores.
+const NOTAS_SEGURANCA = ["seg_nota", "seg_nota_veraneio"];
 const CARTOES = ["populacao", "pib_per_capita", "cempre_pessoal_ocupado", "caged_saldo_12m"];
 const TEMAS: { id: Tema; titulo: string }[] = [
   { id: "populacao", titulo: "População" },
@@ -89,10 +90,15 @@ export default async function PaginaMunicipio({ params }: PageProps<"/municipio/
       {TEMAS.map((tema) => (
         <section key={tema.id} id={tema.id} className="scroll-mt-20 space-y-4 lg:scroll-mt-6">
           <h2 className="text-2xl font-semibold">{tema.titulo}</h2>
-          {tema.id === "seguranca" && <Termometro dados={perfil.indicadores[INDICE_VIOLENCIA] ?? null} />}
+          {tema.id === "seguranca" && (
+            <Termometro
+              nota={perfil.indicadores.seg_nota ?? null}
+              veraneio={perfil.indicadores.seg_nota_veraneio ?? null}
+            />
+          )}
           <div className="grid gap-4 md:grid-cols-2">
             {catalogo
-              .filter((c) => c.tema === tema.id && c.id !== INDICE_VIOLENCIA)
+              .filter((c) => c.tema === tema.id && !NOTAS_SEGURANCA.includes(c.id))
               .map((c) => (
                 <Indicador
                   key={c.id}

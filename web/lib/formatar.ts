@@ -43,7 +43,7 @@ export function formatarValor(valor: number | null | undefined, unidade: string)
     case "empregos_por_mil_hab":
     case "por_100mil_hab":
       return `${sinal}${decimal1(abs)}`;
-    case "indice":
+    case "nota":
       return `${sinal}${inteiro(abs)}`;
     default:
       return `${sinal}${compacto(abs)}`;

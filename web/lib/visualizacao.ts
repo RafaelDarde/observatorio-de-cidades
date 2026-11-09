@@ -13,7 +13,7 @@ export function tipoVisualizacao(d: Indicador | null): Visualizacao {
 const DERIVADOS = new Set(["populacao_var_censo", "pib_per_capita", "caged_saldo_12m", "caged_saldo_12m_por_mil_hab"]);
 
 export function fonteDoIndicador(id: string): string {
-  if (DERIVADOS.has(id) || id.startsWith("seg_taxa") || id === "seg_indice_violencia") return "derivado";
+  if (DERIVADOS.has(id) || id.startsWith("seg_taxa") || id.startsWith("seg_nota")) return "derivado";
   if (id.startsWith("seg_")) return "ssp_rs";
   if (id.startsWith("populacao")) return "ibge_populacao";
   if (id.startsWith("pib") || id.startsWith("vab")) return "ibge_pib";

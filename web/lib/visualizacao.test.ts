@@ -39,7 +39,8 @@ describe("fonteDoIndicador", () => {
     ["caged_saldo", "caged"],
     ["seg_cvli", "ssp_rs"],
     ["seg_taxa_cvli", "derivado"],
-    ["seg_indice_violencia", "derivado"],
+    ["seg_nota", "derivado"],
+    ["seg_nota_veraneio", "derivado"],
     ["caged_saldo_12m", "derivado"],
     ["caged_saldo_12m_por_mil_hab", "derivado"],
   ])("%s -> %s", (id, fonte) => {
