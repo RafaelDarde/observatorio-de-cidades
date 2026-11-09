@@ -11,6 +11,7 @@ const TEMAS: { id: Tema; titulo: string }[] = [
   { id: "economia", titulo: "Economia" },
   { id: "empresas", titulo: "Empresas" },
   { id: "emprego", titulo: "Emprego formal" },
+  { id: "seguranca", titulo: "Segurança" },
 ];
 
 export default function PaginaRankings() {

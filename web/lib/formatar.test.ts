@@ -18,6 +18,9 @@ describe("formatarValor", () => {
     [812, "empregos", "812"],
     [-1.234, "empregos_por_mil_hab", "-1,2"],
     [-52400, "empregos", "-52,4 mil"],
+    [19.54, "por_100mil_hab", "19,5"],
+    [1234.5, "ocorrencias", "1.235"],
+    [61.6, "nota", "62"],
   ] as const)("%s %s -> %s", (valor, unidade, esperado) => {
     expect(formatarValor(valor, unidade)).toBe(esperado);
   });

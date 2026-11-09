@@ -2,6 +2,7 @@ import { GraficoBarras, GraficoLinha } from "@/components/Graficos";
 import { formatarPosicao, formatarValor } from "@/lib/formatar";
 import type { Indicador as DadosIndicador, ItemCatalogo, Posicao } from "@/lib/tipos";
 import { tipoVisualizacao } from "@/lib/visualizacao";
+import { umACada } from "@/lib/violencia";
 
 function dataCurta(iso?: string): string {
   return iso ? new Date(iso).toLocaleDateString("pt-BR", { timeZone: "UTC" }) : "—";
@@ -56,9 +57,15 @@ export function Indicador({ item, dados, carregadoEm }: { item: ItemCatalogo; da
         {tipo !== "vazio" && (
           <span className="titulo text-xl font-semibold tabular-nums">
             {dados?.ultimo ? formatarValor(dados.ultimo.valor, item.unidade) : "Sem dado no período mais recente"}
+            {dados?.ultimo && item.unidade === "por_100mil_hab" && (
+              <span className="ml-1 text-sm font-normal text-suave">por 100 mil hab.</span>
+            )}
           </span>
         )}
       </header>
+      {dados?.ultimo && item.unidade === "por_100mil_hab" && umACada(dados.ultimo.valor) && (
+        <p className="text-right text-xs text-suave">{umACada(dados.ultimo.valor)} em {dados.ultimo.periodo}</p>
+      )}
       <p className="mt-1 text-sm leading-snug text-suave">{item.descricao}</p>
       {dados?.posicao && (
         <div className="mt-3 max-w-xs">

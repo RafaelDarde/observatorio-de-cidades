@@ -51,3 +51,14 @@ def test_pib_per_capita_mesmo_ano_e_ano_sem_estimativa_interpolado(con):
     # 2019: sem população nem vizinhos -> omitido; 2023: sem estimativa -> média de 2022 e 2024
     assert sorted(_v(con, POA, "pib_per_capita")) == [
         ("2023", pytest.approx(52500 * 1000 / 1050)), ("2025", pytest.approx(55000 * 1000 / 1100))]
+
+
+
+def test_taxa_anual_por_100_mil_com_populacao_interpolada():
+    c = conectar(":memory:")
+    substituir_fatos(c, "ibge_populacao", [(POA, "populacao", "2022", None, 90000.0),
+                                           (POA, "populacao", "2024", None, 110000.0)])
+    substituir_fatos(c, "ssp_rs", [(POA, "seg_cvli", "2023", None, 20.0), (POA, "seg_estupro", "2023", None, 5.0)])
+    calcular_derivados(c)
+    assert _v(c, POA, "seg_taxa_cvli") == [("2023", pytest.approx(20.0))]  # população 2023 = média = 100 mil
+    assert _v(c, POA, "seg_taxa_estupro") == [("2023", pytest.approx(5.0))]

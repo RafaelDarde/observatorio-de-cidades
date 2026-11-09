@@ -19,7 +19,7 @@ function compacto(abs: number): string {
   return inteiro(abs);
 }
 
-const DECIMAIS = new Set(["salarios_minimos", "%", "empregos_por_mil_hab"]);
+const DECIMAIS = new Set(["salarios_minimos", "%", "empregos_por_mil_hab", "por_100mil_hab"]);
 
 // Valores que arredondam para zero não levam sinal negativo ("-0,0").
 function ehZero(abs: number, unidade: string): boolean {
@@ -41,7 +41,10 @@ export function formatarValor(valor: number | null | undefined, unidade: string)
     case "%":
       return `${negativo ? "-" : "+"}${decimal1(abs)}%`;
     case "empregos_por_mil_hab":
+    case "por_100mil_hab":
       return `${sinal}${decimal1(abs)}`;
+    case "nota":
+      return `${sinal}${inteiro(abs)}`;
     default:
       return `${sinal}${compacto(abs)}`;
   }

@@ -8,5 +8,6 @@ você pode copiar, redistribuir e adaptar, inclusive para outros fins, desde que
 cite o Observatório Litoral Gaúcho como fonte.
 
 Os dados de origem são públicos e pertencem às respectivas instituições
-(IBGE e Ministério do Trabalho e Emprego / Novo CAGED). Ao reutilizar,
+(IBGE, Ministério do Trabalho e Emprego / Novo CAGED e Secretaria da
+Segurança Pública do RS). Ao reutilizar,
 cite também a fonte original de cada indicador.

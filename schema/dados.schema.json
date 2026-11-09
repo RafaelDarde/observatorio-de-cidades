@@ -6,11 +6,11 @@
   "$defs": {
     "unidade": {
       "title": "Unidade",
-      "enum": ["pessoas", "R$", "R$ mil", "salarios_minimos", "empregos", "%", "empregos_por_mil_hab", "unidades"]
+      "enum": ["pessoas", "R$", "R$ mil", "salarios_minimos", "empregos", "%", "empregos_por_mil_hab", "unidades", "ocorrencias", "por_100mil_hab", "nota"]
     },
     "tema": {
       "title": "Tema",
-      "enum": ["populacao", "economia", "empresas", "emprego"]
+      "enum": ["populacao", "economia", "empresas", "emprego", "seguranca"]
     },
     "itemCatalogo": {
       "title": "ItemCatalogo",

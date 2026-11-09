@@ -143,3 +143,93 @@
   relativo: true
   ranking: true
   motivo_ausencia: Falta o saldo de 12 meses ou a população do município.
+- id: seg_nota
+  nome: Nota de segurança
+  unidade: nota
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: De 0 a 100, nos últimos 12 meses; 50 = média do RS, maior = mais seguro. Combina as taxas de mortes violentas (40%), estupro (20%), roubos (25%) e furtos (15%), comparadas às do RS. Posição 1 = mais seguro.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Faltam ocorrências ou população de algum mês dos últimos 12.
+- id: seg_nota_veraneio
+  nome: Nota de segurança ajustada ao veraneio
+  unidade: nota
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: A mesma nota, descontando o aumento de ocorrências no verão (dezembro a março) que vai além da variação sazonal do RS — uma estimativa do efeito dos veranistas.
+  tema: seguranca
+  relativo: true
+  ranking: false
+  motivo_ausencia: Faltam ocorrências ou população de algum mês dos últimos 12.
+- id: seg_taxa_cvli
+  nome: Mortes violentas por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: Vítimas de crimes violentos letais intencionais (homicídio doloso, feminicídio, latrocínio, lesão corporal seguida de morte e outros) por 100 mil moradores, no ano. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_taxa_estupro
+  nome: Estupros por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: Vítimas mulheres de estupro registradas por 100 mil moradores, no ano. É o crime com maior subnotificação. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_taxa_roubos
+  nome: Roubos por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: Ocorrências de roubo (subtração com violência ou grave ameaça) registradas por 100 mil moradores, no ano. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_taxa_furtos
+  nome: Furtos por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: Ocorrências de furto (subtração sem violência) registradas por 100 mil moradores, no ano. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_cvli
+  nome: Mortes violentas
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores Criminais
+  descricao: Total de vítimas de crimes violentos letais intencionais no ano (fato consumado).
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.
+- id: seg_estupro
+  nome: Estupros
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores da Violência contra a Mulher
+  descricao: Vítimas mulheres de estupro registradas no ano.
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.
+- id: seg_roubos
+  nome: Roubos
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores Criminais
+  descricao: Ocorrências de roubo registradas no ano, como publicadas pela SSP-RS (fato consumado).
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.
+- id: seg_furtos
+  nome: Furtos
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores Criminais
+  descricao: Ocorrências de furto registradas no ano, como publicadas pela SSP-RS (fato consumado; inclui abigeato).
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.

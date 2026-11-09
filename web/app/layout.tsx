@@ -11,7 +11,7 @@ const corpo = Hanken_Grotesk({ variable: "--font-corpo", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Observatório Litoral Gaúcho",
-  description: "Dados públicos de população, economia, empresas e emprego dos municípios do litoral do Rio Grande do Sul.",
+  description: "Dados públicos de população, economia, empresas, emprego e segurança dos municípios do litoral do Rio Grande do Sul.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -27,8 +27,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <NavLateral cidades={cidades} atualizadoEm={geradoEm} />
         <div className="flex min-h-screen flex-col lg:pl-64">
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-8 sm:py-9">{children}</main>
-          <footer className="px-4 pb-8 pt-2 text-center text-xs text-suave">
-            Dados públicos: IBGE e Ministério do Trabalho (Novo CAGED). Projeto de estudo.
+          <footer className="mx-auto w-full max-w-6xl px-4 pb-8 pt-4 sm:px-8">
+            <div className="flex flex-col items-center gap-3 border-t border-linha pt-6 text-center sm:flex-row sm:justify-between sm:text-left">
+              <div>
+                <p className="text-sm font-semibold text-tinta">Rafael Darde</p>
+                <p className="text-xs text-suave">Criador e administrador do Observatório Litoral Gaúcho</p>
+              </div>
+              <a
+                href="mailto:rafael.darde@gmail.com"
+                className="inline-flex items-center gap-2 rounded-xl border border-linha bg-cartao px-3.5 py-2 text-sm font-medium text-destaque transition-colors hover:border-destaque"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
+                rafael.darde@gmail.com
+              </a>
+            </div>
+            <p className="mt-4 text-center text-xs text-suave sm:text-left">
+              Dados públicos: IBGE, Ministério do Trabalho (Novo CAGED) e Secretaria da Segurança Pública do RS.
+            </p>
           </footer>
         </div>
       </body>

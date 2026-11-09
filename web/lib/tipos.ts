@@ -10,12 +10,22 @@
  * via the `definition` "unidade".
  */
 export type Unidade =
-  "pessoas" | "R$" | "R$ mil" | "salarios_minimos" | "empregos" | "%" | "empregos_por_mil_hab" | "unidades";
+  | "pessoas"
+  | "R$"
+  | "R$ mil"
+  | "salarios_minimos"
+  | "empregos"
+  | "%"
+  | "empregos_por_mil_hab"
+  | "unidades"
+  | "ocorrencias"
+  | "por_100mil_hab"
+  | "nota";
 /**
  * This interface was referenced by `DadosObservatorio`'s JSON-Schema
  * via the `definition` "tema".
  */
-export type Tema = "populacao" | "economia" | "empresas" | "emprego";
+export type Tema = "populacao" | "economia" | "empresas" | "emprego" | "seguranca";
 /**
  * This interface was referenced by `DadosObservatorio`'s JSON-Schema
  * via the `definition` "catalogo".

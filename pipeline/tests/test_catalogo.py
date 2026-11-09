@@ -5,12 +5,13 @@ from observatorio.catalogo import carregar_catalogo
 COM_RANKING = {
     "populacao", "populacao_var_censo", "pib", "pib_per_capita", "cempre_pessoal_ocupado",
     "cempre_salario_medio_sm", "caged_saldo_12m", "caged_saldo_12m_por_mil_hab",
+    "seg_nota", "seg_taxa_cvli", "seg_taxa_estupro", "seg_taxa_roubos", "seg_taxa_furtos",
 }
 
 
 def test_catalogo_real_valido():
     cat = carregar_catalogo()
-    assert len(cat) == 16
+    assert len(cat) == 26
     assert {i for i, ind in cat.items() if ind.ranking} == COM_RANKING
     assert all(ind.motivo_ausencia.strip() for ind in cat.values())
     assert list(cat)[0] == "populacao"

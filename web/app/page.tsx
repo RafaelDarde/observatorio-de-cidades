@@ -88,7 +88,7 @@ export default function Inicio() {
           <div>
           <h1 className="max-w-2xl text-4xl font-semibold leading-[1.05] sm:text-5xl">O litoral gaúcho em números</h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75">
-            População, economia, empresas e emprego dos 16 municípios do litoral gaúcho, de Torres a Santa Vitória do
+            População, economia, empresas, emprego e segurança dos 16 municípios do litoral gaúcho, de Torres a Santa Vitória do
             Palmar. Escolha uma cidade para começar.
           </p>
 

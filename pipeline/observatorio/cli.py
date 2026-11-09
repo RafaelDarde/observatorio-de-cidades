@@ -8,7 +8,7 @@ from observatorio.catalogo import carregar_catalogo
 from observatorio.config import SAIDA_DIR
 from observatorio.derivados import calcular_derivados
 from observatorio.exportar import exportar
-from observatorio.fontes import caged, ibge_cempre, ibge_municipios, ibge_pib, ibge_populacao
+from observatorio.fontes import caged, ibge_cempre, ibge_municipios, ibge_pib, ibge_populacao, ssp_rs
 from observatorio.validar import validar
 
 log = logging.getLogger("observatorio")
@@ -19,6 +19,7 @@ FONTES: dict[str, ModuleType] = {
     "ibge_pib": ibge_pib,
     "ibge_cempre": ibge_cempre,
     "caged": caged,
+    "ssp_rs": ssp_rs,
 }
 
 

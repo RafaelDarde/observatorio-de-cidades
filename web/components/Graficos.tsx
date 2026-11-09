@@ -42,7 +42,10 @@ function encurtar(texto: string, max = 32): string {
   return texto.length > max ? `${texto.slice(0, max - 1)}…` : texto;
 }
 
-export function GraficoLinha({ serie, unidade }: { serie: Ponto[]; unidade: string }) {
+// `dominio` fixa o eixo Y (ex.: nota de 0 a 100); `referencia` desenha uma linha tracejada (ex.: média do RS).
+export function GraficoLinha({ serie, unidade, dominio, referencia }: {
+  serie: Ponto[]; unidade: string; dominio?: [number, number]; referencia?: { y: number; rotulo: string };
+}) {
   const id = useId();
   return (
     <ResponsiveContainer width="100%" height={190}>
@@ -55,9 +58,13 @@ export function GraficoLinha({ serie, unidade }: { serie: Ponto[]; unidade: stri
         </defs>
         <CartesianGrid stroke={GRADE} vertical={false} />
         <XAxis dataKey="periodo" tick={EIXO} tickLine={false} axisLine={false} />
-        <YAxis tick={EIXO} tickLine={false} axisLine={false} width={88}
+        <YAxis tick={EIXO} tickLine={false} axisLine={false} width={88} domain={dominio}
                tickFormatter={(v: number) => formatarValor(v, unidade)} />
         <ReferenceLine y={0} stroke={ZERO} />
+        {referencia && (
+          <ReferenceLine y={referencia.y} stroke={ZERO} strokeDasharray="4 4"
+                         label={{ value: referencia.rotulo, position: "insideTopRight", fontSize: 11, fill: "#566c7a" }} />
+        )}
         <Tooltip {...DICA} formatter={(v) => formatarValor(Number(v), unidade)} />
         <Area type="monotone" dataKey="valor" name="Valor" stroke={CORES[0]} strokeWidth={2.5} fill={`url(#${id})`}
               dot={serie.length <= 12 ? { r: 3, fill: "#fff", stroke: CORES[0], strokeWidth: 2 } : false}
