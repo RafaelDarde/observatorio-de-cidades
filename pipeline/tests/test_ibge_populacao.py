@@ -25,8 +25,17 @@ def test_estimativas_anteriores_ao_censo_2022_descartadas():
     assert normalizar(antigas, []) == []
 
 
-def test_consultas_so_do_recorte_sem_total_brasil():
+def test_consultas_do_recorte_e_do_rs_sem_total_brasil():
     from observatorio.fontes.ibge_populacao import urls
     u = urls()
-    assert set(u) == {"estimativas", "censo"}
-    assert all("/n6/4301057%2C" in url for url in u.values())
+    assert set(u) == {"estimativas", "censo", "estimativas_rs", "censo_rs"}
+    assert "/n6/4301057%2C" in u["estimativas"] and "/n6/4301057%2C" in u["censo"]
+    assert "/n3/43/" in u["estimativas_rs"] and "/n3/43/" in u["censo_rs"]
+
+
+def test_normalizar_rs_censo_prevalece_e_descarta_anteriores():
+    from observatorio.fontes.ibge_populacao import normalizar_rs
+    est = [{"Ano (Código)": "2021", "Valor": 1.0}, {"Ano (Código)": "2022", "Valor": 2.0},
+           {"Ano (Código)": "2025", "Valor": 11000000.0}]
+    censo = [{"Ano (Código)": "2022", "Valor": 10882965.0}]
+    assert normalizar_rs(est, censo) == [("populacao", "2022", 10882965.0), ("populacao", "2025", 11000000.0)]

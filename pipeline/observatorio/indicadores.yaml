@@ -143,3 +143,66 @@
   relativo: true
   ranking: true
   motivo_ausencia: Falta o saldo de 12 meses ou a população do município.
+- id: seg_indice_violencia
+  nome: Índice de violência
+  unidade: indice
+  fonte: Calculado a partir da SSP-RS e do IBGE
+  descricao: Compara as taxas do município com as do RS nos últimos 3 anos completos (100 = igual ao RS; 200 = o dobro). Pesos — mortes violentas 50%, roubos 25%, furtos 25%. Posição 1 = mais violento.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Faltam ocorrências ou população de algum dos anos usados no cálculo.
+- id: seg_taxa_cvli
+  nome: Mortes violentas por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS — Indicadores Criminais e IBGE
+  descricao: Vítimas de crimes violentos letais intencionais (homicídio doloso, feminicídio, latrocínio, lesão corporal seguida de morte e outros) por 100 mil moradores. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_taxa_roubos
+  nome: Roubos por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS — Indicadores Criminais e IBGE
+  descricao: Ocorrências de roubo (subtração com violência ou grave ameaça) registradas por 100 mil moradores. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_taxa_furtos
+  nome: Furtos por 100 mil habitantes
+  unidade: por_100mil_hab
+  fonte: Calculado a partir da SSP-RS — Indicadores Criminais e IBGE
+  descricao: Ocorrências de furto (subtração sem violência) registradas por 100 mil moradores. Posição 1 = maior taxa.
+  tema: seguranca
+  relativo: true
+  ranking: true
+  motivo_ausencia: Falta o número de ocorrências ou a população do município no ano.
+- id: seg_cvli
+  nome: Mortes violentas
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores Criminais
+  descricao: Total de vítimas de crimes violentos letais intencionais no ano (fato consumado).
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.
+- id: seg_roubos
+  nome: Roubos
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores Criminais
+  descricao: Ocorrências de roubo registradas no ano, como publicadas pela SSP-RS (fato consumado).
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.
+- id: seg_furtos
+  nome: Furtos
+  unidade: ocorrencias
+  fonte: SSP-RS — Indicadores Criminais
+  descricao: Ocorrências de furto registradas no ano, como publicadas pela SSP-RS (fato consumado; inclui abigeato).
+  tema: seguranca
+  relativo: false
+  ranking: false
+  motivo_ausencia: A SSP-RS não publicou dados do município no período.

@@ -52,7 +52,75 @@ union all select cod_municipio, indicador, periodo, null, valor from saldo12
 union all select cod_municipio, indicador, periodo, null, valor from por_mil
 """
 
+# Índice de violência: cada taxa do município (média ponderada pela população nos últimos
+# ANOS_INDICE anos completos) dividida pela taxa do RS no mesmo período; as razões entram com
+# estes pesos e o resultado vai a escala em que 100 = RS. Mortes violentas pesam mais por serem
+# o registro mais confiável (quase não há subnotificação).
+PESOS_INDICE = {"seg_cvli": 0.5, "seg_roubos": 0.25, "seg_furtos": 0.25}
+ANOS_INDICE = 3
+
+_SQL_SEGURANCA = """
+with pop as (
+    select cod_municipio, cast(periodo as int) as ano, valor from fatos
+    where indicador = 'populacao' and recorte is null
+),
+seg as (
+    select cod_municipio, indicador, cast(periodo as int) as ano, valor from fatos
+    where indicador in (select unnest($inds)) and recorte is null
+),
+-- População do ano; sem estimativa naquele ano (ex.: 2023), média dos anos vizinhos.
+pop_ano as (
+    select s.cod_municipio, s.ano, coalesce(m.valor, (a.valor + d.valor) / 2) as pop
+    from (select distinct cod_municipio, ano from seg) s
+    left join pop m on m.cod_municipio = s.cod_municipio and m.ano = s.ano
+    left join pop a on a.cod_municipio = s.cod_municipio and a.ano = s.ano - 1
+    left join pop d on d.cod_municipio = s.cod_municipio and d.ano = s.ano + 1
+),
+taxas as (
+    select s.cod_municipio, replace(s.indicador, 'seg_', 'seg_taxa_') as indicador,
+           cast(s.ano as varchar) as periodo, s.valor / p.pop * 100000 as valor
+    from seg s join pop_ano p using (cod_municipio, ano) where p.pop is not null
+),
+ref_pop as (select cast(periodo as int) as ano, valor from referencias where indicador = 'populacao'),
+ref_seg as (
+    select indicador, cast(periodo as int) as ano, valor from referencias
+    where indicador in (select unnest($inds))
+),
+ref_pop_ano as (
+    select r.ano, coalesce(m.valor, (a.valor + d.valor) / 2) as pop
+    from (select distinct ano from ref_seg) r
+    left join ref_pop m on m.ano = r.ano
+    left join ref_pop a on a.ano = r.ano - 1
+    left join ref_pop d on d.ano = r.ano + 1
+),
+janela as (select distinct ano from seg order by ano desc limit $anos),
+mun_janela as (
+    select s.cod_municipio, s.indicador, sum(s.valor) / sum(p.pop) as taxa
+    from seg s join pop_ano p using (cod_municipio, ano) join janela using (ano)
+    group by all having count(p.pop) = $anos
+),
+rs_janela as (
+    select r.indicador, sum(r.valor) / sum(p.pop) as taxa
+    from ref_seg r join ref_pop_ano p using (ano) join janela using (ano)
+    group by all having count(p.pop) = $anos
+),
+pesos as (select unnest($inds) as indicador, unnest($pesos) as peso),
+indice as (
+    select m.cod_municipio, 'seg_indice_violencia' as indicador,
+           (select cast(max(ano) as varchar) from janela) as periodo,
+           100 * sum(w.peso * m.taxa / r.taxa) as valor
+    from mun_janela m join rs_janela r using (indicador) join pesos w using (indicador)
+    where r.taxa > 0
+    group by m.cod_municipio having count(*) = len($inds)
+)
+select cod_municipio, indicador, periodo, null as recorte, valor from taxas
+union all select cod_municipio, indicador, periodo, null, valor from indice
+"""
+
 
 def calcular_derivados(con) -> int:
     linhas = con.execute(_SQL).fetchall()
+    linhas += con.execute(_SQL_SEGURANCA, {
+        "inds": list(PESOS_INDICE), "pesos": list(PESOS_INDICE.values()), "anos": ANOS_INDICE,
+    }).fetchall()
     return substituir_fatos(con, "derivado", linhas, verificar=False)
