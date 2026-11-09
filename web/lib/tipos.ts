@@ -20,7 +20,7 @@ export type Unidade =
   | "unidades"
   | "ocorrencias"
   | "por_100mil_hab"
-  | "indice";
+  | "nota";
 /**
  * This interface was referenced by `DadosObservatorio`'s JSON-Schema
  * via the `definition` "tema".

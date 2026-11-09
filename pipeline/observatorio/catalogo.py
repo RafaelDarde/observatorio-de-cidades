@@ -4,7 +4,7 @@ from pathlib import Path
 import yaml
 
 UNIDADES = {"pessoas", "R$", "R$ mil", "salarios_minimos", "empregos", "%", "empregos_por_mil_hab", "unidades",
-            "ocorrencias", "por_100mil_hab", "indice"}
+            "ocorrencias", "por_100mil_hab", "nota"}
 TEMAS = {"populacao", "economia", "empresas", "emprego", "seguranca"}
 _PADRAO = Path(__file__).with_name("indicadores.yaml")
 
